@@ -1,35 +1,35 @@
 {
-"name": "progress",
-"version": "1.0.0",
-"description": "",
-"main": "index.js",
-"scripts": {
-"start": "node index.js",
-"server": "nodemon index.js",
-"frontend": "npm start --prefix frontend",
-"dev": "concurrently -k \"npm run server\" \"npm run frontend\"",
-"heroku-postbuild": "npm install --prefix client && npm run build --prefix client"
-},
-"repository": {
-"type": "git",
-"url": "git+https://github.com/Nyumat/Progress.git"
-},
-"keywords": [],
-"author": "",
-"license": "ISC",
-"bugs": {
-"url": "https://github.com/Nyumat/Progress/issues"
-},
-"homepage": "https://github.com/Nyumat/Progress#readme",
-"dependencies": {
-"concurrently": "^7.5.0",
-"cors": "^2.8.5",
-"dotenv": "^16.0.3",
-"express": "^4.18.2",
-"mongoose": "^6.7.0"
-},
-"devDependencies": {
-"nodemon": "^2.0.20"
-},
-"type": "module"
+  "name": "progress",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "server": "nodemon index.js",
+    "frontend": "npm start --prefix frontend",
+    "dev": "concurrently -k \"npm run server\" \"npm run frontend\"",
+    "heroku-postbuild": "npm install --prefix client && npm run build --prefix client"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nyumat/Progress.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nyumat/Progress/issues"
+  },
+  "homepage": "https://github.com/Nyumat/Progress#readme",
+  "dependencies": {
+    "concurrently": "^7.5.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^6.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  },
+  "type": "module"
 }
