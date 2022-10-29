@@ -11,7 +11,13 @@ const userSchema = new mongoose.Schema({
     maxlength: 200,
     unique: true,
   },
-  pin: { type: String, required: true, minlength: 4, maxlength: 99999, unique: true },
+  pin: {
+    type: String,
+    required: true,
+    minlength: 4,
+    maxlength: 99999,
+    unique: true,
+  },
 });
 
 const User = mongoose.model("User", userSchema);

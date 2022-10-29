@@ -1,8 +1,8 @@
 import { genSalt, hash } from "bcrypt";
-import { User } from "../models/user.js";
+import { User } from "../../models/user.js";
 import joi from "joi";
 import { Router } from "express";
-import generateAuthToken from "../utils/generateToken.js";
+import generateAuthToken from "../../utils/generateToken.js";
 const router = Router();
 
 router.post("/", async (req, res) => {
@@ -16,12 +16,12 @@ router.post("/", async (req, res) => {
   if (error) return res.status(400).send(error.details[0].message);
 
   let user = await User.findOne({ username: req.body.username });
-  if (user) return res.status(406).send("User already exists!");
+  if (user) return res.status(406).send("User already exists.");
 
   const { username, pin } = req.body;
 
   if (pin.toString().length > 4 || pin.toString().length < 4) {
-    return res.status(405).send("Pin isn't 4 numbers!")
+    return res.status(405).send("Pin must be 4 digits.");
   }
 
   user = new User({ username, pin });
@@ -37,7 +37,7 @@ router.post("/", async (req, res) => {
 
   const token = generateAuthToken(user);
 
-  res.send(token);
+  return res.status(200).send(token);
 });
 
 export default router;

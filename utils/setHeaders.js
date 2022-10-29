@@ -7,7 +7,6 @@ router.post("/", async (req, res) => {
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept"
   );
-  next();
 });
 
 export default router;

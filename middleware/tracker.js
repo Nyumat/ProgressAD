@@ -1,15 +1,16 @@
 import { Router } from "express";
 
-let router = Router();
-let connectionTracker = {};
+const router = Router();
+const connectionTracker = {};
 
 router.all("*", function (req, res, next) {
-  let counter = connectionTracker[req.originalUrl];
+  const counter = connectionTracker[req.originalUrl];
   if (counter || counter === 0) {
     connectionTracker[req.originalUrl] = counter + 1;
   } else {
     connectionTracker[req.originalUrl] = 1;
   }
+
   console.log("========REQUEST RECEIVED========");
   console.log(`REQUEST ROUTE:  ${JSON.stringify(req.originalUrl, null, "  ")}`);
   console.log(`REQUEST METHOD:  ${JSON.stringify(req.method, null, "  ")}`);
