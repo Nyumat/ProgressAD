@@ -3,15 +3,16 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
 import FormData from "form-data";
+import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useNavigate } from "react-router";
 
 function Copyright(props) {
   return (
@@ -32,7 +33,7 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function Register() {
+export default function Login() {
   const [errorUsername, setErrorUsername] = useState(false);
   const [errorPin, setErrorPin] = useState(false);
   const [errorMsgPin, setErrorMsgPin] = useState("");
@@ -50,8 +51,14 @@ export default function Register() {
     if (isError) {
       return errorMsgPin;
     } else {
-      return "Create PIN";
+      return "PIN";
     }
+  };
+
+  const navigate = useNavigate();
+
+  const navigateRegister = () => {
+    navigate("/register");
   };
 
   const handleSubmit = (event) => {
@@ -62,22 +69,30 @@ export default function Register() {
     setErrorMsgPin("");
     const data = new FormData(event.currentTarget);
     axios
-      .post("http://localhost:8080/api/users/register", {
+      .post("http://localhost:8080/api/users/login", {
         username: data.get("username"),
         pin: data.get("pin"),
       })
       .then((response) => {
         if (response.status === 200) {
-          window.location.href = "/login";
+          localStorage.setItem("token", response.data);
+          navigate("/");
         }
       })
       .catch((error) => {
-        if (error.response.status === 406) {
+        if (error.response.status === 400) {
           setErrorUsername(true);
-          setErrorMsgUsername("Username already exists!");
-        } else if (error.response.status === 405) {
+          setErrorMsgUsername("User does not exist.");
+        }
+
+        if (error.response.status === 405) {
           setErrorPin(true);
-          setErrorMsgPin("Pin isn't 4 numbers!");
+          setErrorMsgPin("PIN must be 4 digits.");
+        }
+
+        if (error.response.status === 401) {
+          setErrorPin(true);
+          setErrorMsgPin("PIN is incorrect.");
         }
       });
   };
@@ -93,7 +108,7 @@ export default function Register() {
           md={7}
           sx={{
             backgroundImage:
-              "url(https://www.precor.com/sites/default/files/success_images/Precor-OSU-Dixon-Rec-Center.jpg)",
+              "url(https://educationsnapshots.com/wp-content/uploads/sites/4/2021/10/oregon-state-university-dixon-recreation-center-racquetball-court-conversions-1-1536x1381.jpg)",
             backgroundRepeat: "no-repeat",
             backgroundColor: (t) =>
               t.palette.mode === "light"
@@ -117,7 +132,7 @@ export default function Register() {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Register
+              Sign in
             </Typography>
             <Box
               component="form"
@@ -147,19 +162,21 @@ export default function Register() {
                 id="pin"
                 autoComplete="current-password"
               />
-
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Register
+                Sign In
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot your Pin?
+                  <Link variant="body2">Forgot Pin?</Link>
+                </Grid>
+                <Grid item>
+                  <Link onClick={navigateRegister} variant="body2">
+                    Don't have an account? Sign up.
                   </Link>
                 </Grid>
               </Grid>
