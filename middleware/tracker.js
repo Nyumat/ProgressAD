@@ -5,6 +5,7 @@ const connectionTracker = {};
 
 router.all("*", function (req, res, next) {
   const counter = connectionTracker[req.originalUrl];
+
   if (counter || counter === 0) {
     connectionTracker[req.originalUrl] = counter + 1;
   } else {
