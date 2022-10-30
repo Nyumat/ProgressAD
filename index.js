@@ -8,6 +8,8 @@ import tracker from "./middleware/tracker.js";
 import setHeaders from "./utils/setHeaders.js";
 import register from "./routes/auth/register.js";
 import login from "./routes/auth/login.js";
+import init from "./routes/auth/init.js";
+import get_user from "./routes/bin/get_user.js";
 
 dotenv.config();
 
@@ -28,20 +30,24 @@ app.use(setHeaders);
 app.use("/api/users/register", register);
 // Login a user endpoint.
 app.use("/api/users/login", login);
+// Init login endpoint.
+app.use("/api/users/init_login", init);
+// Get user endpoint.
+app.use("/api/users/get", get_user);
 
 app.get("/api", (req, res) => {
-  res.send({ username: os.userInfo().username });
+	res.send({ username: os.userInfo().username });
 });
 
 app.listen(PORT, () => {
-  console.log(`Server started on port ${PORT}`);
+	console.log(`Server started on port ${PORT}`);
 });
 
 const uri = process.env.URI;
 mongoose
-  .connect(uri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("MongoDB connection established..."))
-  .catch((error) => console.error("MongoDB connection failed:", error.message));
+	.connect(uri, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true
+	})
+	.then(() => console.log("MongoDB connection established..."))
+	.catch((error) => console.error("MongoDB connection failed:", error.message));
