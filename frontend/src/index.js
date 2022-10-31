@@ -21,7 +21,7 @@ function ProgressAD() {
 		<BrowserRouter>
 			<Routes>
 				<Route
-					path='/'
+					path='/home'
 					element={
 						<>
 							<App />

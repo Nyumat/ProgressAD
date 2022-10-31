@@ -81,7 +81,7 @@ export default function Login() {
 				if (response.status === 200) {
 					dispatch(initLogin({ username: data.get("username") }));
 					dispatch(getUser(data.get("username")));
-					navigate("/");
+					navigate("/home");
 				}
 			})
 			.catch((error) => {
@@ -182,15 +182,20 @@ export default function Login() {
 								type='submit'
 								fullWidth
 								variant='contained'
-								sx={{ mt: 3, mb: 2 }}>
+								sx={{ mt: 3, mb: 3 }}>
 								Sign In
 							</Button>
 							<Grid container>
 								<Grid item xs>
-									<Link variant='body2'>Forgot Pin?</Link>
+									<Link variant='body2'>
+										Forgot Pin?
+									</Link>
 								</Grid>
 								<Grid item>
-									<Link onClick={navigateRegister} variant='body2'>
+									<Link
+										component='button'
+										onClick={navigateRegister}
+										variant='body2'>
 										Don't have an account? Sign up.
 									</Link>
 								</Grid>

@@ -50,9 +50,9 @@ export const userSlice = createSlice({
 	initialState: initState,
 	reducers: {
 		logout: (state) => {
+			state.initLogin = false;
 			state.token = "";
 			state.username = "";
-			state.initLogin = true;
 			state.status = "Logged out";
 			state.error = "";
 			state.userLoaded = false;
