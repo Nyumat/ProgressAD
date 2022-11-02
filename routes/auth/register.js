@@ -8,7 +8,11 @@ const router = Router();
 router.post("/", async (req, res) => {
 	const schema = joi.object({
 		username: joi.string().min(3).max(200).required(),
-		pin: joi.number().min(0).max(9999).required()
+		pin: joi.number().min(0).max(9999).required(),
+		weight: joi.number().min(0).max(600).required(),
+		height: joi.number().min(0).max(100).required(),
+		bloodType: joi.string().min(0).max(3).optional(),
+		BMI: joi.number()
 	});
 
 	const { error } = schema.validate(req.body);
@@ -18,13 +22,22 @@ router.post("/", async (req, res) => {
 	let user = await User.findOne({ username: req.body.username });
 	if (user) return res.status(406).send("User already exists.");
 
-	const { username, pin } = req.body;
+	const { username, pin, weight, height, bloodType, BMI } = req.body;
 
 	if (pin.toString().length > 4 || pin.toString().length < 4) {
 		return res.status(405).send("Pin must be 4 digits.");
 	}
 
-	user = new User({ username, pin });
+	user = new User({
+		username,
+		pin,
+		weight,
+		height,
+		bloodType,
+		BMI,
+		loginDateTime: Date.now(),
+		workouts: [],
+	});
 
 	const salt = await genSalt(10);
 
@@ -35,9 +48,7 @@ router.post("/", async (req, res) => {
 
 	await user.save();
 
-	const token = generateAuthToken(user);
-
-	return res.status(200).send(token);
+	return res.status(200).send("Registered!");
 });
 
 export default router;

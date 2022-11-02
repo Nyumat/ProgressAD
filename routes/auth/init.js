@@ -2,7 +2,7 @@ import { User } from "../../models/user.js";
 import { Router } from "express";
 const router = Router();
 
-router.post("/", async (req, res) => {
+router.patch("/", async (req, res) => {
 	let username = req.body.username;
 	try {
 		let user = await User.findOne({ username: username }).exec();
@@ -12,7 +12,7 @@ router.post("/", async (req, res) => {
 		}
 
 		setTimeout(async () => {
-			let initalLogin = await User.updateOne(
+			await User.updateOne(
 				{ username: username },
 				{ $set: { initLogin: false } }
 			);

@@ -8,7 +8,7 @@ const initState = {
 	token: localStorage.getItem("token"),
 	status: "",
 	error: "",
-	userLoaded: false
+	userLoaded: false,
 };
 
 export const initLogin = createAsyncThunk(
@@ -56,6 +56,9 @@ export const userSlice = createSlice({
 			state.status = "Logged out";
 			state.error = "";
 			state.userLoaded = false;
+		},
+		loadToken: (state, action) => {
+			state.token = action.payload;
 		}
 	},
 	extraReducers: (builder) => {
@@ -79,7 +82,7 @@ export const userSlice = createSlice({
 	}
 });
 
-export const { loadUser, logout } = userSlice.actions;
+export const { logout, loadToken } = userSlice.actions;
 
 export const selectUser = (state) => state.user;
 

@@ -9,7 +9,10 @@ import setHeaders from "./utils/setHeaders.js";
 import register from "./routes/auth/register.js";
 import login from "./routes/auth/login.js";
 import init from "./routes/auth/init.js";
-import get_user from "./routes/bin/get_user.js";
+import get_user from "./routes/crud/read/get_user.js";
+import logout from "./routes/auth/logout.js";
+import create_workout from "./routes/crud/create/create_workout.js";
+import add_machine from "./routes/crud/update/add_machine.js";
 
 dotenv.config();
 
@@ -30,10 +33,16 @@ app.use(setHeaders);
 app.use("/api/users/register", register);
 // Login a user endpoint.
 app.use("/api/users/login", login);
+// Logout a user endpoint.
+app.use("/api/users/logout", logout);
 // Init login endpoint.
 app.use("/api/users/init_login", init);
 // Get user endpoint.
 app.use("/api/users/get", get_user);
+// Create a new workout for a user.
+app.use("/api/workouts/create", create_workout);
+// Add a new machine to a workout.
+app.use("/api/workout/machines/add", add_machine);
 
 app.get("/api", (req, res) => {
 	res.send({ username: os.userInfo().username });
