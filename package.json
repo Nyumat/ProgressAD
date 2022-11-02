@@ -1,40 +1,42 @@
 {
-  "name": "progress",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js",
-    "server": "nodemon index.js",
-    "frontend": "npm start --prefix frontend",
-    "dev": "concurrently -k \"npm run server\" \"npm run frontend\"",
-    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Nyumat/Progress.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Nyumat/Progress/issues"
-  },
-  "homepage": "https://github.com/Nyumat/Progress#readme",
-  "dependencies": {
-    "bcrypt": "^5.1.0",
-    "body-parser": "^1.20.1",
-    "concurrently": "^7.5.0",
-    "cors": "^2.8.5",
-    "dotenv": "^16.0.3",
-    "express": "^4.18.2",
-    "joi": "^17.6.4",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.7.0"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.20",
-    "prettier": "2.7.1"
-  },
-  "type": "module"
+	"name": "progress-backend",
+	"version": "1.0.0",
+	"description": "Backend for ProgressAD",
+	"main": "index.js",
+	"scripts": {
+		"start": "node index.js",
+		"server": "nodemon index.js",
+		"frontend": "npm start --prefix frontend",
+		"dev": "concurrently -k \"npm run server\" \"npm run frontend\"",
+		"format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/TrackMeAtDixon/Progress.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/TrackMeAtDixon/Progress/issues"
+	},
+	"homepage": "https://github.com/TrackMeAtDixon/Progress#readme",
+	"dependencies": {
+		"bcrypt": "^5.1.0",
+		"body-parser": "^1.20.1",
+		"cloudinary": "^1.32.0",
+		"concurrently": "^7.5.0",
+		"cors": "^2.8.5",
+		"dotenv": "^16.0.3",
+		"express": "^4.18.2",
+		"joi": "^17.6.4",
+		"jsonwebtoken": "^8.5.1",
+		"mongoose": "^6.7.0",
+		"uuid": "^9.0.0"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.20",
+		"prettier": "2.7.1"
+	},
+	"type": "module"
 }

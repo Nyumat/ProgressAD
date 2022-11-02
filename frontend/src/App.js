@@ -1,40 +1,46 @@
+import {
+	BrowserRouter,
+	Route,
+	Routes,
+	Outlet,
+	Navigate
+} from "react-router-dom";
+import TopAppBar from "./components/TopAppBar";
+import Login from "./routes/login/Login";
+import Logout from "./routes/logout/Logout";
+import Register from "./routes/register/Register";
+import Home from "./routes/home/Home";
+import Profile from "./routes/profile/Profile";
 import "./styles/App.css";
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router";
 
-function App() {
-  const [data, setData] = useState("loading");
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    axios.get("/api").then((res) => {
-      setData(res.data);
-    });
-  }, []);
-
-  return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Hello, {data.username}!</h1>
-        <br></br>
-        <button
-          style={{
-            fontSize: "1.5rem",
-            padding: "0.5rem",
-            borderRadius: "0.3rem",
-            backgroundColor: "grey",
-            color: "white",
-          }}
-          onClick={() => {
-            navigate("/logout");
-          }}
-        >
-          Logout
-        </button>
-      </header>
-    </div>
-  );
+function TabBarNavigation() {
+	return (
+		<>
+			<TopAppBar />
+			<Outlet />
+		</>
+	);
 }
 
-export default App;
+function StandardNavigation() {
+	return <Outlet />;
+}
+
+export default function App() {
+	return (
+		<BrowserRouter>
+			<Routes>
+				<Route element={<StandardNavigation />}>
+					<Route path='/login' element={<Login />} />
+					<Route path='/register' element={<Register />} />
+					<Route path='/logout' element={<Logout />} />
+					<Route path='/' element={<Navigate to='/login' replace={true} />} />
+				</Route>
+				<Route element={<TabBarNavigation />}>
+					<Route path='/home' element={<Home />} />
+					<Route path='/profile' element={<Profile />} />
+				</Route>
+			</Routes>
+		</BrowserRouter>
+	);
+}
