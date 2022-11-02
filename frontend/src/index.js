@@ -6,6 +6,8 @@ import App from "./App";
 import Login from "./routes/login/Login";
 import Logout from "./routes/logout/Logout";
 import Register from "./routes/register/Register";
+// import PrivateRoute from "./routes/private/PrivateRoute";
+// import FourOhFour from "./routes/error/FourOhFour";
 
 import "./index.css";
 
@@ -20,14 +22,6 @@ function ProgressAD() {
 	return (
 		<BrowserRouter>
 			<Routes>
-				<Route
-					path='/home'
-					element={
-						<>
-							<App />
-						</>
-					}
-				/>
 				<Route
 					path='/login'
 					element={
@@ -49,6 +43,30 @@ function ProgressAD() {
 					element={
 						<>
 							<Logout />
+						</>
+					}
+				/>
+				<Route
+					path='/'
+					element={
+						<>
+							<Login />
+						</>
+					}
+				/>
+				<Route
+					path=''
+					element={
+						<>
+							<Login />
+						</>
+					}
+				/>
+				<Route
+					path='/home'
+					element={
+						<>
+							<App />
 						</>
 					}
 				/>

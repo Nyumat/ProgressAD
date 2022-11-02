@@ -1,21 +1,15 @@
 import "./styles/App.css";
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
 
 function App() {
-	const [data, setData] = useState("loading");
 	const navigate = useNavigate();
 
 	const initLoginState = useSelector((state) => state.user.initLogin);
 	const username = useSelector((state) => state.user.username);
 
-	useEffect(() => {
-		axios.get("/api").then((res) => {
-			setData(res.data);
-		});
-	}, []);
+	useEffect(() => {}, []);
 
 	return (
 		<div className='App'>

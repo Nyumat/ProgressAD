@@ -187,9 +187,7 @@ export default function Login() {
 							</Button>
 							<Grid container>
 								<Grid item xs>
-									<Link variant='body2'>
-										Forgot Pin?
-									</Link>
+									<Link variant='body2'>Forgot Pin?</Link>
 								</Grid>
 								<Grid item>
 									<Link

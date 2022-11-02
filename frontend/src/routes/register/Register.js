@@ -10,16 +10,24 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
+import Slider from "@mui/material/Slider";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
+import {
+	FormControl,
+	InputLabel,
+	MenuItem,
+	Select,
+	FormHelperText,
+	Checkbox,
+	FormControlLabel,
+	Input,
+	Container
+} from "@mui/material";
 
 function Copyright(props) {
 	return (
-		<Typography
-			variant='body2'
-			color='text.secondary'
-			align='center'
-			{...props}>
+		<Typography variant='body2' color='text.secondary' align='center' mt={1}>
 			{"Copyright © "}
 			<Link color='inherit' href='https://mui.com/'>
 				ProgressAD
@@ -37,6 +45,29 @@ export default function Register() {
 	const [errorMsgPin, setErrorMsgPin] = useState("");
 	const [errorMsgUsername, setErrorMsgUsername] = useState("");
 
+	const [bloodTypeChar, setBloodTypeChar] = useState("");
+	const [bloodTypeRhD, setBloodTypeRhd] = useState("");
+
+	const [weightValue, setWeightValue] = useState(0);
+	const [heightValue, setHeightValue] = useState(0);
+
+	const [disabled, setDisabled] = useState(false);
+
+	const handleChangeBTC = (e) => {
+		e.preventDefault();
+		setBloodTypeChar(e.target.value);
+	};
+
+	const handleChangeRhD = (e) => {
+		e.preventDefault();
+		setBloodTypeRhd(e.target.value);
+	};
+
+	const mergeBloodTypeSelections = (btc, rhd) => {
+		const mergedTypes = btc + rhd;
+		return mergedTypes;
+	};
+
 	const switchLabelUsername = (isError) => {
 		if (isError) {
 			return errorMsgUsername;
@@ -53,12 +84,58 @@ export default function Register() {
 		}
 	};
 
+	const handleSliderChange = (e, newValue) => {
+		setWeightValue(newValue);
+	};
+
+	const handleInputChange = (event) => {
+		setWeightValue(event.target.value === "" ? "" : Number(event.target.value));
+	};
+
+	const handleBlur = () => {
+		if (weightValue < 0) {
+			setWeightValue(0);
+		} else if (weightValue > 100) {
+			setWeightValue(100);
+		}
+	};
+
+	const handleHeightSliderChange = (e, newValue) => {
+		setHeightValue(newValue);
+	};
+
+	const handleHeightInputChange = (event) => {
+		setHeightValue(event.target.value === "" ? "" : Number(event.target.value));
+	};
+
+	const handleHeightBlur = () => {
+		if (heightValue < 0) {
+			setHeightValue(0);
+		} else if (heightValue > 100) {
+			setHeightValue(100);
+		}
+	};
+
+	const bodyMassIndex = () => {
+		return weightValue / heightValue ** 2;
+	};
+
+	const setInputDisabled = (e) => {
+		if (disabled === false) setDisabled(true);
+		if (disabled === true) setDisabled(false);
+	};
+
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		setErrorUsername(false);
 		setErrorPin(false);
 		setErrorMsgUsername("");
 		setErrorMsgPin("");
+
+		// Send this to redux
+		console.log(mergeBloodTypeSelections(bloodTypeChar, bloodTypeRhD));
+		console.log(bodyMassIndex);
+
 		const data = new FormData(event.currentTarget);
 		axios
 			.post("http://localhost:8080/api/users/register", {
@@ -80,6 +157,10 @@ export default function Register() {
 				}
 			});
 	};
+
+	React.useEffect(() => {
+		document.body.style.overflow = "hidden";
+	}, []);
 
 	return (
 		<ThemeProvider theme={theme}>
@@ -145,6 +226,126 @@ export default function Register() {
 								autoComplete='current-password'
 							/>
 
+							<Container>
+								<FormControl
+									sx={{ m: 1.5, ml: 4.5, minWidth: 120 }}
+									disabled={disabled}>
+									<InputLabel id='demo-simple-select-helper-label'>
+										Blood Type
+									</InputLabel>
+									<Select
+										labelId='demo-simple-select-helper-label'
+										id='demo-simple-select-helper'
+										value={bloodTypeChar}
+										label='Blood Type'
+										onChange={handleChangeBTC}>
+										<MenuItem value=''>
+											<em>None</em>
+										</MenuItem>
+										<MenuItem value={"A"}>A</MenuItem>
+										<MenuItem value={"B"}>B</MenuItem>
+										<MenuItem value={"AB"}>AB</MenuItem>
+										<MenuItem value={"O"}>O</MenuItem>
+									</Select>
+									<FormHelperText>Letter [A,B,AB,O]</FormHelperText>
+								</FormControl>
+
+								<FormControl sx={{ m: 1.5, minWidth: 120 }} disabled={disabled}>
+									<InputLabel id='demo-simple-select-helper-label'>
+										RhD
+									</InputLabel>
+									<Select
+										labelId='demo-simple-select-helper-label'
+										id='demo-simple-select-helper'
+										value={bloodTypeRhD}
+										label='Rhd'
+										onChange={handleChangeRhD}>
+										<MenuItem value=''>
+											<em>None</em>
+										</MenuItem>
+										<MenuItem value={"+"}>+</MenuItem>
+										<MenuItem value={"-"}>-</MenuItem>
+									</Select>
+									<FormHelperText>(+) or (-)</FormHelperText>
+								</FormControl>
+								<Box sx={{ ml: 7.5 }}>
+									<FormControlLabel
+										control={
+											<Checkbox
+												defaultValue={!disabled}
+												onChange={setInputDisabled}
+												color='success'
+											/>
+										}
+										label='I dont know my blood type.'
+									/>
+								</Box>
+							</Container>
+
+							<Box sx={{ width: 400 }}>
+								<Typography id='input-slider' gutterBottom>
+									Height (inches)
+								</Typography>
+								<Grid container spacing={2} alignItems='center'>
+									<Grid item xs>
+										<Slider
+											value={typeof heightValue === "number" ? heightValue : 0}
+											min={0}
+											max={100}
+											onChange={handleHeightSliderChange}
+											aria-labelledby='input-slider'
+										/>
+									</Grid>
+									<Grid item sx={{ mb: 3 }}>
+										<Input
+											value={heightValue}
+											size='small'
+											onChange={handleHeightInputChange}
+											onBlur={handleHeightBlur}
+											inputProps={{
+												"step": 10,
+												"min": 0,
+												"max": 100,
+												"type": "number",
+												"aria-labelledby": "input-slider"
+											}}
+										/>
+									</Grid>
+								</Grid>
+							</Box>
+
+							<Box sx={{ width: 400 }}>
+								<Typography id='input-slider' gutterBottom>
+									Weight (lbs)
+								</Typography>
+								<Grid container spacing={2} alignItems='center'>
+									<Grid item xs>
+										<Slider
+											value={typeof weightValue === "number" ? weightValue : 0}
+											min={0}
+											max={300}
+											onChange={handleSliderChange}
+											aria-labelledby='input-slider'
+										/>
+									</Grid>
+									<Grid item sx={{ mb: 3 }}>
+										<Input
+											value={weightValue}
+											size='small'
+											onChange={handleInputChange}
+											onBlur={handleBlur}
+											inputProps={{
+												"step": 50,
+												"min": 0,
+												"max": 400,
+												"type": "number",
+												"aria-labelledby": "input-slider"
+											}}
+										/>
+									</Grid>
+								</Grid>
+							</Box>
+
 							<Button
 								type='submit'
 								fullWidth
@@ -159,7 +360,7 @@ export default function Register() {
 									</Link>
 								</Grid>
 							</Grid>
-							<Copyright sx={{ mt: 5 }} />
+							<Copyright />
 						</Box>
 					</Box>
 				</Grid>
