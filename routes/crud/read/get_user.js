@@ -1,8 +1,8 @@
-import { User } from "../../models/user.js";
+import { User } from "../../../models/user.js";
 import { Router } from "express";
 const router = Router();
 
-router.post("/", async (req, res) => {
+router.get("/", async (req, res) => {
 	let username = req.body.username;
 	try {
 		let user = await User.findOne({ username: username }).exec();

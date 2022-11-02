@@ -14,7 +14,7 @@ import axios from "axios";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
-import { initLogin, getUser } from "../../slices/userSlice";
+import { initLogin, getUser, loadToken } from "../../slices/userSlice";
 
 function Copyright(props) {
 	return (
@@ -79,6 +79,7 @@ export default function Login() {
 			})
 			.then((response) => {
 				if (response.status === 200) {
+					dispatch(loadToken(response.data));
 					dispatch(initLogin({ username: data.get("username") }));
 					dispatch(getUser(data.get("username")));
 					navigate("/home");

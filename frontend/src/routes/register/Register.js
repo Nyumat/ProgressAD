@@ -1,10 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
-import FormData from "form-data";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -53,6 +53,8 @@ export default function Register() {
 
 	const [disabled, setDisabled] = useState(false);
 
+	const navigate = useNavigate();
+
 	const handleChangeBTC = (e) => {
 		e.preventDefault();
 		setBloodTypeChar(e.target.value);
@@ -95,8 +97,8 @@ export default function Register() {
 	const handleBlur = () => {
 		if (weightValue < 0) {
 			setWeightValue(0);
-		} else if (weightValue > 100) {
-			setWeightValue(100);
+		} else if (weightValue > 600) {
+			setWeightValue(weightValue);
 		}
 	};
 
@@ -112,16 +114,20 @@ export default function Register() {
 		if (heightValue < 0) {
 			setHeightValue(0);
 		} else if (heightValue > 100) {
-			setHeightValue(100);
+			setHeightValue(heightValue);
 		}
 	};
 
 	const bodyMassIndex = () => {
-		return weightValue / heightValue ** 2;
+		let BMI = (weightValue * 703) / heightValue ** 2;
+		BMI = BMI.toFixed(2);
+		BMI = parseFloat(BMI);
+		return BMI;
 	};
 
 	const setInputDisabled = (e) => {
-		if (disabled === false) setDisabled(true);
+		if (disabled === false)
+			setDisabled(true) && setBloodTypeChar("") && setBloodTypeRhd("");
 		if (disabled === true) setDisabled(false);
 	};
 
@@ -133,27 +139,38 @@ export default function Register() {
 		setErrorMsgPin("");
 
 		// Send this to redux
-		console.log(mergeBloodTypeSelections(bloodTypeChar, bloodTypeRhD));
-		console.log(bodyMassIndex);
+		let bloodType = mergeBloodTypeSelections(bloodTypeChar, bloodTypeRhD);
+		let BMI = bodyMassIndex();
+		let requestBody = {
+			username: event.target.username.value,
+			pin: event.target.pin.value,
+			bloodType: bloodType,
+			weight: weightValue,
+			height: heightValue,
+			BMI: BMI
+		};
 
-		const data = new FormData(event.currentTarget);
 		axios
-			.post("http://localhost:8080/api/users/register", {
-				username: data.get("username"),
-				pin: data.get("pin")
-			})
+			.post("http://localhost:8080/api/users/register", requestBody)
 			.then((response) => {
 				if (response.status === 200) {
-					window.location.href = "/login";
+					navigate("/login");
 				}
 			})
 			.catch((error) => {
+				if (error.response.status === null)
+					console.log("Error: " + error.response.data);
 				if (error.response.status === 406) {
 					setErrorUsername(true);
 					setErrorMsgUsername("Username already exists!");
 				} else if (error.response.status === 405) {
 					setErrorPin(true);
 					setErrorMsgPin("Pin isn't 4 numbers!");
+				} else {
+					setErrorUsername(true);
+					setErrorPin(true);
+					setErrorMsgUsername(error.response.data);
+					setErrorMsgPin("Something went wrong!");
 				}
 			});
 	};
@@ -323,7 +340,7 @@ export default function Register() {
 										<Slider
 											value={typeof weightValue === "number" ? weightValue : 0}
 											min={0}
-											max={300}
+											max={600}
 											onChange={handleSliderChange}
 											aria-labelledby='input-slider'
 										/>
@@ -337,7 +354,7 @@ export default function Register() {
 											inputProps={{
 												"step": 50,
 												"min": 0,
-												"max": 400,
+												"max": 600,
 												"type": "number",
 												"aria-labelledby": "input-slider"
 											}}
