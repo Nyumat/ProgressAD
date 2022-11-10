@@ -35,8 +35,8 @@ router.patch("/", async (req, res) => {
 		user.workouts = [];
 		await user.save();
 
-		res.status(200).send({
-			message: `Logged out ${user.username} successfully!`
+		res.status(200).json({
+			msg: `User ${user.username} logged out successfully!`
 		});
 	} catch (error) {
 		res.send(error);

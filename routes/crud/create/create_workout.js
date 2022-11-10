@@ -31,17 +31,17 @@ router.post("/", async (req, res) => {
 
 		let user = await User.findOne({ username: username });
 
+		if (!user) {
+			return res.status(400).json({ msg: "User does not exist." });
+		}
+
 		user.workouts.push(workout);
-		user.workOutType = workOutType;
-		user.workOutIntensity = workOutIntensity;
 
 		await user.save();
 
 		res
 			.status(200)
-			.send(
-				`Workout started! ${workout.workOutType} workout for user: ${user.username}`
-			);
+			.json({ msg: `Workout created for ${user.username} successfully!` });
 	} catch (error) {
 		res.send(error);
 	}

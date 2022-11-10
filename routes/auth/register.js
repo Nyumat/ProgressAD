@@ -35,8 +35,7 @@ router.post("/", async (req, res) => {
 		height,
 		bloodType,
 		BMI,
-		loginDateTime: Date.now(),
-		workouts: [],
+		workouts: []
 	});
 
 	const salt = await genSalt(10);
@@ -48,7 +47,10 @@ router.post("/", async (req, res) => {
 
 	await user.save();
 
-	return res.status(200).send("Registered!");
+	return res.status(200).json({
+		msg: `User ${username} created successfully!`,
+		token: generateAuthToken(user)
+	});
 });
 
 export default router;

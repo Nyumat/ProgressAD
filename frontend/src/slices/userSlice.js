@@ -8,7 +8,7 @@ const initState = {
 	token: localStorage.getItem("token"),
 	status: "",
 	error: "",
-	userLoaded: false,
+	userLoaded: false
 };
 
 export const initLogin = createAsyncThunk(

@@ -47,7 +47,7 @@ export const workoutSlice = createSlice({
 	},
 	extraReducers: (builder) => {
 		builder.addCase(createWorkout.pending, (state) => {
-                  state.status = "Creating workout...";
+			state.status = "Creating workout...";
 		});
 	}
 });

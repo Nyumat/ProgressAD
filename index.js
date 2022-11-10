@@ -13,6 +13,8 @@ import get_user from "./routes/crud/read/get_user.js";
 import logout from "./routes/auth/logout.js";
 import create_workout from "./routes/crud/create/create_workout.js";
 import add_machine from "./routes/crud/update/add_machine.js";
+import add_set from "./routes/crud/update/add_set.js";
+import update_cardio from "./routes/crud/update/update_cardio.js";
 
 dotenv.config();
 
@@ -43,6 +45,10 @@ app.use("/api/users/get", get_user);
 app.use("/api/workouts/create", create_workout);
 // Add a new machine to a workout.
 app.use("/api/workout/machines/add", add_machine);
+// Add a new set {reps,weight} to a strength machine.
+app.use("/api/workout/machines/sets/add", add_set);
+// Update cardio machine 'x' with a distance and time spent.
+app.use("/api/workout/machines/cardio/add", update_cardio);
 
 app.get("/api", (req, res) => {
 	res.send({ username: os.userInfo().username });

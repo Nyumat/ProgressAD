@@ -34,8 +34,14 @@ router.post("/", async (req, res) => {
 
 	if (!validPassword) return res.status(401).send("Incorrect pin. Try again.");
 
+	user.loginDateTime = Date.now();
+	await user.save();
+
 	const token = generateAuthToken(user);
-	res.status(200).send(token);
+	res.status(200).json({
+		msg: `User ${user.username} logged in successfully!`,
+		token: token
+	});
 });
 
 export default router;
