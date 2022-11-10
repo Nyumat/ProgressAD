@@ -18,7 +18,9 @@ router.patch("/", async (req, res) => {
 			);
 		}, 5000);
 
-		res.status(200).send(user);
+		res.status(200).json({
+			msg: `User ${user.username} initialized successfully!`
+		});
 	} catch (error) {
 		res.send(error);
 	}

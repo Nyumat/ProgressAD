@@ -3,33 +3,49 @@ import { Workout, Machine } from "../../../models/workout.js";
 import { Router } from "express";
 const router = Router();
 
-router.put("/", async (req, res) => {
+router.post("/", async (req, res) => {
 	try {
 		const { username, machine_name, machine_type, is_available } = req.body;
 
-		let machine = new Machine({
-			username: username,
-			machine_name: machine_name,
-			machine_type: machine_type,
-			is_available: is_available
-		});
+		let isAvailable = is_available === "true" ? true : false;
 
-		await machine.save();
+		const user = await User.findOne({ username: username });
 
-		let user = await User.findOne({ username: username });
-		let workout = await Workout.findOne({ username: username });
+		if (!user) {
+			return res.status(400).json({ msg: "User does not exist." });
+		}
 
-		workout.machines.push(machine);
-		await workout.save();
+		if (machine_type === "Cardio") {
+			user.workouts[user.workouts.length - 1].machines.push({
+				username: username,
+				machine_name: machine_name,
+				machine_type: machine_type,
+				is_available: isAvailable,
+				sets: null
+			});
 
-		await User.findOneAndUpdate(
-			{ "username": username, "workouts._id": workout._id },
-			{ $push: { "workouts.$.machines": machine } }
-		);
+			await user.save();
 
-		res
-			.status(200)
-			.send(`${machine.machine_name} added to ${user.username}'s workout!`);
+			return res
+				.status(200)
+				.json({ msg: "Cardio Machine added successfully." });
+		} else if (machine_type === "Strength") {
+			user.workouts[user.workouts.length - 1].machines.push({
+				username: username,
+				machine_name: machine_name,
+				machine_type: machine_type,
+				is_available: isAvailable,
+				sets: []
+			});
+
+			await user.save();
+
+			return res
+				.status(200)
+				.json({ msg: "Strength Machine added successfully." });
+		} else {
+			return res.status(400).json({ msg: "Machine type not found." });
+		}
 	} catch (error) {
 		res.send(error);
 	}

@@ -3,16 +3,11 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-
 const machineSchema = new mongoose.Schema({
 	username: {
 		type: String,
 		required: true,
 		unqiue: false
-	},
-	machine_id: {
-		type: String,
-		required: false
 	},
 	machine_name: {
 		type: String,
@@ -26,9 +21,33 @@ const machineSchema = new mongoose.Schema({
 	},
 	is_available: {
 		type: Boolean,
+		required: false
+	},
+	distance: {
+		type: Number,
 		required: false,
-		default: true
-	}
+		default: 0
+	},
+	timeSpent: {
+		// in minutes
+		type: Number,
+		required: false,
+		default: 0
+	},
+	sets: [
+		{
+			reps: {
+				type: Number,
+				required: false,
+				default: 0
+			},
+			weight: {
+				type: Number,
+				required: false,
+				default: 0
+			}
+		}
+	]
 });
 
 const workoutSchema = new mongoose.Schema(
@@ -91,4 +110,4 @@ const workoutSchema = new mongoose.Schema(
 
 const Workout = mongoose.model("Workout", workoutSchema);
 const Machine = mongoose.model("Machine", machineSchema);
-export { Workout, Machine }
+export { Workout, Machine };

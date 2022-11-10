@@ -64,7 +64,7 @@ const userSchema = new mongoose.Schema({
 	},
 	loginDateTime: {
 		type: Date,
-		required: true,
+		required: false,
 		minlength: 3,
 		maxlength: 200,
 		unique: false
@@ -77,21 +77,7 @@ const userSchema = new mongoose.Schema({
 		unique: false
 	},
 	savedWorkouts: [Workout.schema],
-	workouts: [Workout.schema],
-	workOutType: {
-		type: String,
-		enum: ["Cardio", "Strength", "Other", "none"],
-		required: false,
-		unique: false,
-		default: "none"
-	},
-	workOutIntensity: {
-		type: String,
-		enum: ["Low", "Medium", "High", "none"],
-		required: false,
-		unique: false,
-		default: "none"
-	}
+	workouts: [Workout.schema]
 });
 
 const User = mongoose.model("User", userSchema);
