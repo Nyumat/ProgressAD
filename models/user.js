@@ -26,8 +26,6 @@ const userSchema = new mongoose.Schema({
 	weight: {
 		type: Number,
 		default: 0,
-		min: 0,
-		max: 600,
 		validate: {
 			validator: Number.isInteger,
 			message: "{VALUE} is not an integer value"
@@ -38,8 +36,6 @@ const userSchema = new mongoose.Schema({
 	height: {
 		type: Number,
 		default: 0,
-		min: 0,
-		max: 300,
 		validate: {
 			validator: Number.isInteger,
 			message: "{VALUE} is not an integer value"
@@ -50,8 +46,6 @@ const userSchema = new mongoose.Schema({
 	BMI: {
 		type: Number,
 		default: 0,
-		min: 0,
-		max: 100,
 		required: [true, "BMI is required"],
 		unique: false
 	},
@@ -77,7 +71,27 @@ const userSchema = new mongoose.Schema({
 		unique: false
 	},
 	savedWorkouts: [Workout.schema],
-	workouts: [Workout.schema]
+	workouts: [Workout.schema],
+	firstName: {
+		type: String,
+		required: false
+	},
+	lastName: {
+		type: String,
+		required: false
+	},
+	age: {
+		type: Number,
+		default: 0,
+		min: 0,
+		max: 150,
+		validate: {
+			validator: Number.isInteger,
+			message: "{VALUE} is not an integer value"
+		},
+		required: false,
+		unique: false
+	}
 });
 
 const User = mongoose.model("User", userSchema);

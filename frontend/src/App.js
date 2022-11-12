@@ -1,41 +1,46 @@
+import {
+	BrowserRouter,
+	Route,
+	Routes,
+	Outlet,
+	Navigate
+} from "react-router-dom";
+import TopAppBar from "./components/TopAppBar";
+import Login from "./routes/login/Login";
+import Logout from "./routes/logout/Logout";
+import Register from "./routes/register/Register";
+import Home from "./routes/home/Home";
+import Profile from "./routes/profile/Profile";
 import "./styles/App.css";
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router";
-import { useSelector } from "react-redux";
 
-function App() {
-	const navigate = useNavigate();
-
-	const initLoginState = useSelector((state) => state.user.initLogin);
-	const username = useSelector((state) => state.user.username);
-
-	useEffect(() => {}, []);
-
+function TabBarNavigation() {
 	return (
-		<div className='App'>
-			<header className='App-header'>
-				<h1>
-					Hello, {username}! <br></br>Is this your first time on the site:
-					<br></br>
-					{initLoginState ? "Yes" : "No"}
-				</h1>
-				<br></br>
-				<button
-					style={{
-						fontSize: "1.5rem",
-						padding: "0.5rem",
-						borderRadius: "0.3rem",
-						backgroundColor: "grey",
-						color: "white"
-					}}
-					onClick={() => {
-						navigate("/logout");
-					}}>
-					Logout
-				</button>
-			</header>
-		</div>
+		<>
+			<TopAppBar />
+			<Outlet />
+		</>
 	);
 }
 
-export default App;
+function StandardNavigation() {
+	return <Outlet />;
+}
+
+export default function App() {
+	return (
+		<BrowserRouter>
+			<Routes>
+				<Route element={<StandardNavigation />}>
+					<Route path='/login' element={<Login />} />
+					<Route path='/register' element={<Register />} />
+					<Route path='/logout' element={<Logout />} />
+					<Route path='/' element={<Navigate to='/login' replace={true} />} />
+				</Route>
+				<Route element={<TabBarNavigation />}>
+					<Route path='/home' element={<Home />} />
+					<Route path='/profile' element={<Profile />} />
+				</Route>
+			</Routes>
+		</BrowserRouter>
+	);
+}
