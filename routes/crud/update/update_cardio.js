@@ -4,7 +4,7 @@ const router = Router();
 
 router.put("/", async (req, res) => {
 	try {
-		const { username, distance, timeSpent, machine_name } = req.body;
+		const { username, distance, timeSpent, machine_id } = req.body;
 
 		let user = await User.findOne({ username: username });
 
@@ -20,8 +20,26 @@ router.put("/", async (req, res) => {
 				.json({ msg: "You must start a workout before appending data." });
 		}
 
+		let strength_machines = workout.machines.filter(
+			(machine) => machine.machine_type === "Strength"
+		);
+
+		if (strength_machines.length > 0) {
+			for (let i = 0; i < strength_machines.length; i++) {
+				if (strength_machines[i].machine_status === false) {
+					return res
+						.status(400)
+						.json({ msg: `${user.username} is using a non-cardio machine.` });
+				}
+			}
+		} else {
+			return res
+				.status(400)
+				.json({ msg: `${user.username} is not using any cardio machines right now.` });
+		}
+
 		let machine = workout.machines.find(
-			(machine) => machine.machine_name === machine_name
+			(machine) => machine.machine_id === machine_id
 		);
 
 		if (!machine) {
@@ -33,7 +51,7 @@ router.put("/", async (req, res) => {
 			await user.save();
 
 			return res.status(200).json({
-				msg: `${machine_name} updated successfully for ${username}!`
+				msg: `${machine.machine_name} updated successfully for ${username}!`
 			});
 		}
 	} catch (error) {

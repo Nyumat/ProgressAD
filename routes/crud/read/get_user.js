@@ -3,7 +3,7 @@ import { Router } from "express";
 const router = Router();
 
 router.get("/", async (req, res) => {
-	let username = req.body.username;
+	const username = req.query.username;
 	try {
 		let user = await User.findOne({ username: username }).exec();
 

@@ -25,15 +25,13 @@ function Logout() {
 			}, 1000);
 			return () => clearInterval(interval);
 		}
-
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [timeLeft]);
+	}, [dispatch, navigate, timeLeft]);
 
 	return (
 		<div className='App'>
 			<header className='App-header'>
-				<h1>You have logged out!</h1>
-				<h1>Redirecting in {timeLeft} seconds</h1>
+				<h1>Thank you for using ProgressAD!</h1>
+				<h1>Redirecting to login in {timeLeft} seconds!</h1>
 			</header>
 		</div>
 	);

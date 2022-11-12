@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { LoadingButton } from "@mui/lab";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import FitnessCenter from "@mui/icons-material/FitnessCenter";
 import Typography from "@mui/material/Typography";
 import Slider from "@mui/material/Slider";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 import {
 	FormControl,
@@ -40,6 +40,9 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function Register() {
+	const [loading, setLoading] = useState(false);
+	const [color, setColor] = useState("primary");
+
 	const [errorUsername, setErrorUsername] = useState(false);
 	const [errorPin, setErrorPin] = useState(false);
 	const [errorMsgPin, setErrorMsgPin] = useState("");
@@ -133,12 +136,12 @@ export default function Register() {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
+		setLoading(true);
 		setErrorUsername(false);
 		setErrorPin(false);
 		setErrorMsgUsername("");
 		setErrorMsgPin("");
 
-		// Send this to redux
 		let bloodType = mergeBloodTypeSelections(bloodTypeChar, bloodTypeRhD);
 		let BMI = bodyMassIndex();
 		let requestBody = {
@@ -154,24 +157,43 @@ export default function Register() {
 			.post("http://localhost:8080/api/users/register", requestBody)
 			.then((response) => {
 				if (response.status === 200) {
-					navigate("/login");
+					setTimeout(() => {
+						setLoading(false);
+						setColor("success");
+					}, 1500);
+
+					setTimeout(() => {
+						navigate("/login");
+					}, 2000);
 				}
 			})
 			.catch((error) => {
-				if (error.response.status === null)
-					console.log("Error: " + error.response.data);
-				if (error.response.status === 406) {
-					setErrorUsername(true);
-					setErrorMsgUsername("Username already exists!");
-				} else if (error.response.status === 405) {
-					setErrorPin(true);
-					setErrorMsgPin("Pin isn't 4 numbers!");
-				} else {
-					setErrorUsername(true);
-					setErrorPin(true);
-					setErrorMsgUsername(error.response.data);
-					setErrorMsgPin("Something went wrong!");
-				}
+				setTimeout(() => {
+					setLoading(false);
+					setColor("error");
+					if (error.response.status === null)
+						console.log("Error: " + error.response.data);
+					if (error.response.status === 406) {
+						setErrorUsername(true);
+						setErrorMsgUsername("Username already exists!");
+					} else if (error.response.status === 405) {
+						setErrorPin(true);
+						setErrorMsgPin("Pin isn't 4 numbers!");
+					} else {
+						setErrorUsername(true);
+						setErrorPin(true);
+						setErrorMsgUsername("Fill out all fields!");
+						setErrorMsgPin("Fill out all fields!");
+					}
+				}, 1500);
+
+				setTimeout(() => {
+					setColor("primary");
+					setErrorUsername(false);
+					setErrorPin(false);
+					setErrorMsgUsername("");
+					setErrorMsgPin("");
+				}, 4000);
 			});
 	};
 
@@ -209,8 +231,8 @@ export default function Register() {
 							flexDirection: "column",
 							alignItems: "center"
 						}}>
-						<Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-							<LockOutlinedIcon />
+						<Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
+							<FitnessCenter />
 						</Avatar>
 						<Typography component='h1' variant='h5'>
 							Register
@@ -362,14 +384,16 @@ export default function Register() {
 									</Grid>
 								</Grid>
 							</Box>
-
-							<Button
-								type='submit'
+							<LoadingButton
+								loading={loading}
+								loadingPosition='center'
+								sx={{ mt: 3, mb: 2 }}
 								fullWidth
-								variant='contained'
-								sx={{ mt: 3, mb: 2 }}>
+								color={color}
+								type='submit'
+								variant='contained'>
 								Register
-							</Button>
+							</LoadingButton>
 							<Grid container>
 								<Grid item xs>
 									<Link href='#' variant='body2'>

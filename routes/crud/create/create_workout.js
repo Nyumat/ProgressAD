@@ -4,44 +4,31 @@ import { Router } from "express";
 const router = Router();
 
 router.post("/", async (req, res) => {
+	const { username, workOutType, workOutIntensity } = req.body;
 	try {
-		let workout = await Workout.findOne({ username: req.body.username });
+		let user = await User.findOne({ username: username });
 
-		if (workout)
-			return res
-				.status(406)
-				.send(`Error: \nWorkout already started for ${req.body.username}`);
+		if (!user) {
+			return res.status(400).json({ msg: "User does not exist" });
+		}
 
-		const { username, workOutType, workOutIntensity } = req.body;
-
-		workout = new Workout({
+		let workout = new Workout({
 			username,
 			workOutType,
 			workOutIntensity,
 			workoutStartTimestamp: Date.now(),
-			workoutEndTimestamp: null,
-			workoutDuration: null,
-			machines: [],
-			machinesUsed: null,
-			effortLevel: 0,
-			tirednessLevel: 0
+			machines: []
 		});
 
-		await workout.save();
-
-		let user = await User.findOne({ username: username });
-
-		if (!user) {
-			return res.status(400).json({ msg: "User does not exist." });
+		if (user.workouts.length > 0) {
+			return res.status(400).json({ msg: "Workout already going on." });
+		} else {
+			user.workouts = [workout];
+			await user.save();
+			return res
+				.status(200)
+				.json({ msg: `Workout created for ${username} successfully!` });
 		}
-
-		user.workouts.push(workout);
-
-		await user.save();
-
-		res
-			.status(200)
-			.json({ msg: `Workout created for ${user.username} successfully!` });
 	} catch (error) {
 		res.send(error);
 	}

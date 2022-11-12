@@ -19,20 +19,20 @@ const machineSchema = new mongoose.Schema({
 		default: "none",
 		required: false
 	},
-	is_available: {
+	machine_status: {
+		// 1,true = available, 0,false = in use
 		type: Boolean,
 		required: false
 	},
 	distance: {
+		// in miles
 		type: Number,
-		required: false,
-		default: 0
+		required: false
 	},
 	timeSpent: {
 		// in minutes
 		type: Number,
-		required: false,
-		default: 0
+		required: false
 	},
 	sets: [
 		{
@@ -47,66 +47,66 @@ const machineSchema = new mongoose.Schema({
 				default: 0
 			}
 		}
-	]
+	],
+	machine_id: {
+		type: String,
+		required: false,
+		unique: true
+	}
 });
 
-const workoutSchema = new mongoose.Schema(
-	{
-		username: {
-			type: String,
-			required: true,
-			unqiue: false
-		},
-		workOutType: {
-			enum: ["Cardio", "Strength", "Other", "none"],
-			type: String,
-			required: false,
-			unique: false,
-			default: "none"
-		},
-		workOutIntensity: {
-			enum: ["Low", "Medium", "High", "none"],
-			type: String,
-			required: true,
-			unique: false,
-			default: "none"
-		},
-		machines: [machineSchema],
-		workoutStartTimestamp: {
-			type: Date,
-			required: false,
-			unique: false
-		},
-		workoutEndTimestamp: {
-			type: Date,
-			required: false,
-			unique: false
-		},
-		effortLevel: {
-			type: Number,
-			required: false,
-			min: 0,
-			max: 10,
-			unique: false
-		},
-		tirednessLevel: {
-			type: Number,
-			required: false,
-			min: 0,
-			max: 10,
-			unique: false
-		}
+const workoutSchema = new mongoose.Schema({
+	username: {
+		type: String,
+		required: true,
+		unqiue: false
 	},
-	{
-		virtuals: {
-			workOutDuration: {
-				get() {
-					return this.workoutStartTimestamp - this.workoutEndTimestamp;
-				}
-			}
-		}
+	workOutType: {
+		enum: ["Cardio", "Strength", "Other", "none"],
+		type: String,
+		required: false,
+		unique: false,
+		default: "none"
+	},
+	workOutIntensity: {
+		enum: ["Low", "Medium", "High", "none"],
+		type: String,
+		required: true,
+		unique: false,
+		default: "none"
+	},
+	machines: [machineSchema],
+	workoutStartTimestamp: {
+		type: Date,
+		required: false,
+		unique: false
+	},
+	workoutEndTimestamp: {
+		type: Date,
+		required: false,
+		unique: false
+	},
+	effortLevel: {
+		type: Number,
+		required: false,
+		min: 0,
+		max: 10,
+		unique: false
+	},
+	tirednessLevel: {
+		type: Number,
+		required: false,
+		min: 0,
+		max: 10,
+		unique: false
+	},
+	workoutDuration: {
+		// in minutes
+		type: Number,
+		required: false,
+		unique: false
 	}
-);
+});
 
 const Workout = mongoose.model("Workout", workoutSchema);
 const Machine = mongoose.model("Machine", machineSchema);

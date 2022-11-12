@@ -16,6 +16,7 @@ router.all("*", function (req, res, next) {
 	console.log(`REQUEST ROUTE:  ${JSON.stringify(req.originalUrl, null, "  ")}`);
 	console.log(`REQUEST METHOD:  ${JSON.stringify(req.method, null, "  ")}`);
 	console.log(`REQUEST BODY:  ${JSON.stringify(req.body, null, "  ")}`);
+	console.log(`REQUEST QUERY:  ${JSON.stringify(req.query, null, "  ")}`);
 	console.log(`STATUS CODE:  ${JSON.stringify(res.statusCode, null, "  ")}`);
 	console.log(`REQUEST HEADERS:  ${JSON.stringify(req.headers, null, "  ")}`);
 	console.log(
