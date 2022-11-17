@@ -29,7 +29,9 @@ function Copyright(props) {
 	return (
 		<Typography variant='body2' color='text.secondary' align='center' mt={1}>
 			{"Copyright © "}
-			<Link color='inherit' href='https://mui.com/'>
+			<Link
+				color='inherit'
+				href='https://github.com/TrackMeAtDixon/Progress#readme'>
 				ProgressAD
 			</Link>{" "}
 			{new Date().getFullYear()}.

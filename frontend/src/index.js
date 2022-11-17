@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.css";
+import { SnackbarProvider } from "notistack";
 
 // Redux
 import store from "./store";
@@ -16,7 +17,14 @@ root.render(
 	<React.StrictMode>
 		<Provider store={store}>
 			<PersistGate loading={null} persistor={persistor}>
-				<App />
+				<SnackbarProvider
+					maxSnack={3}
+					anchorOrigin={{
+						vertical: "bottom",
+						horizontal: "right"
+					}}>
+					<App />
+				</SnackbarProvider>
 			</PersistGate>
 		</Provider>
 	</React.StrictMode>

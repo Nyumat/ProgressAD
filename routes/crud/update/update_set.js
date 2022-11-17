@@ -33,7 +33,9 @@ router.put("/", async (req, res) => {
 		}
 
 		if (!machine) {
-			return res.status(400).json({ msg: `${user.username} is not using any strength machines right now.` });
+			return res.status(400).json({
+				msg: `${user.username} is not using any strength machines right now.`
+			});
 		} else {
 			machine.sets.push({
 				reps: reps,

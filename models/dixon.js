@@ -10,7 +10,7 @@ const dixonSchema = new mongoose.Schema({
 		// uuid
 		type: String,
 		required: false,
-		unique: true
+		unique: false
 	},
 	machine_image: {
 		// cloudinary
@@ -20,8 +20,8 @@ const dixonSchema = new mongoose.Schema({
 	},
 	machine_type: {
 		type: String,
-		enum: ["Cardio", "Strength", "Other", "none"],
-		default: "none",
+		enum: ["Cardio", "Strength", "Other", "None"],
+		default: "None",
 		required: false
 	},
 	machine_status: {

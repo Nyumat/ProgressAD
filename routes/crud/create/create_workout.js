@@ -25,9 +25,10 @@ router.post("/", async (req, res) => {
 		} else {
 			user.workouts = [workout];
 			await user.save();
-			return res
-				.status(200)
-				.json({ msg: `Workout created for ${username} successfully!` });
+			return res.status(200).json({
+				msg: `Workout created for ${username} successfully!`,
+				workout: user.workouts[0]
+			});
 		}
 	} catch (error) {
 		res.send(error);

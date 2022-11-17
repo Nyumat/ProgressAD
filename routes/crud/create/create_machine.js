@@ -14,7 +14,7 @@ router.post("/", async (req, res) => {
 	 * Replace 'XXXX' with the filename & extension of the image you want to upload.
 	 * The file must be in the /images directory.
 	 */
-	let image = path.join(__dirname, "images", "XXXXXX");
+	let image = path.join(__dirname, "images", "XXXX.jpg");
 
 	try {
 		const { machine_name, machine_type } = req.body;
@@ -28,7 +28,7 @@ router.post("/", async (req, res) => {
 
 		let image_url = result.secure_url;
 		// For testing purposes, uncomment the line below to see the image URL.
-		// console.log(image_url);
+		//console.log(image_url);
 
 		let dixon = await Dixon.findOne({ machine_id: machine_id }).exec();
 

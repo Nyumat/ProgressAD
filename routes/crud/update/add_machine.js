@@ -39,14 +39,6 @@ router.post("/", async (req, res) => {
 		let user_workout = user.workouts[user.workouts.length - 1];
 		let user_machines = user_workout.machines;
 
-		for (let i = 0; i < user_machines.length; i++) {
-			if (user_machines[i].machine_status === false) {
-				return res
-					.status(400)
-					.json({ msg: `${user.username} is already using a machine.` });
-			}
-		}
-
 		if (machine_type === "Cardio") {
 			user.workouts[user.workouts.length - 1].machines.push({
 				username: username,
@@ -62,9 +54,13 @@ router.post("/", async (req, res) => {
 			dixon.machine_status = false;
 			await dixon.save();
 
-			return res
-				.status(200)
-				.json({ msg: `${machine_name} added successfully.` });
+			return res.status(200).json({
+				msg: `${machine_name} added successfully.`,
+				machine:
+					user.workouts[user.workouts.length - 1].machines[
+						user.workouts[user.workouts.length - 1].machines.length - 1
+					]
+			});
 		} else if (machine_type === "Strength") {
 			user.workouts[user.workouts.length - 1].machines.push({
 				username: username,
@@ -80,9 +76,35 @@ router.post("/", async (req, res) => {
 			dixon.machine_status = false;
 			await dixon.save();
 
-			return res
-				.status(200)
-				.json({ msg: `${machine_name} added successfully.` });
+			return res.status(200).json({
+				msg: `${machine_name} added successfully.`,
+				machine:
+					user.workouts[user.workouts.length - 1].machines[
+						user.workouts[user.workouts.length - 1].machines.length - 1
+					]
+			});
+		} else if (machine_type === "Other") {
+			user.workouts[user.workouts.length - 1].machines.push({
+				username: username,
+				machine_name: machine_name,
+				machine_type: machine_type,
+				machine_id: machine_id,
+				machine_status: false,
+				sets: null
+			});
+
+			await user.save();
+
+			dixon.machine_status = false;
+			await dixon.save();
+
+			return res.status(200).json({
+				msg: `${machine_name} added successfully.`,
+				machine:
+					user.workouts[user.workouts.length - 1].machines[
+						user.workouts[user.workouts.length - 1].machines.length - 1
+					]
+			});
 		} else {
 			return res.status(400).json({ msg: "Machine type not found." });
 		}
