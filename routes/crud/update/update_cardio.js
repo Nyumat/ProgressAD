@@ -32,10 +32,6 @@ router.put("/", async (req, res) => {
 						.json({ msg: `${user.username} is using a non-cardio machine.` });
 				}
 			}
-		} else {
-			return res
-				.status(400)
-				.json({ msg: `${user.username} is not using any cardio machines right now.` });
 		}
 
 		let machine = workout.machines.find(

@@ -45,7 +45,7 @@ export const userSlice = createSlice({
 	reducers: {
 		logout: (state) => {
 			state.username = "";
-			state.status = "";
+			state.status = "Logged out";
 			state.error = "";
 			state.userLoaded = false;
 			state.weight = "";

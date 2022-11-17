@@ -12,17 +12,23 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
-
+import { useSnackbar } from "notistack";
 import { useNavigate } from "react-router";
+import { useSelector } from "react-redux";
+import { capitalizeFirstLetter } from "../scripts/global";
 
 const pages = ["Home", "Reports", "Machines"];
-const settings = ["Profile", "Logout"];
+const settings = ["Home", "Profile", "Workout", "Logout"];
 
 export default function TopAppBar() {
 	const [anchorElNav, setAnchorElNav] = React.useState(null);
 	const [anchorElUser, setAnchorElUser] = React.useState(null);
 
+	const { enqueueSnackbar } = useSnackbar();
+
 	const navigate = useNavigate();
+	const workout = useSelector((state) => state.workout);
+	const user = useSelector((state) => state.user);
 
 	const handleOpenNavMenu = (e) => {
 		setAnchorElNav(encodeURI.currentTarget);
@@ -39,6 +45,68 @@ export default function TopAppBar() {
 		setAnchorElUser(null);
 	};
 
+	function stringToColor(string) {
+		let hash = 0;
+		let i;
+
+		/* eslint-disable no-bitwise */
+		for (i = 0; i < string.length; i += 1) {
+			hash = string.charCodeAt(i) + ((hash << 5) - hash);
+		}
+
+		let color = "#";
+
+		for (i = 0; i < 3; i += 1) {
+			const value = (hash >> (i * 8)) & 0xff;
+			color += `00${value.toString(16)}`.slice(-2);
+		}
+		/* eslint-enable no-bitwise */
+
+		return color;
+	}
+
+	function stringAvatar(name) {
+		return {
+			sx: {
+				bgcolor: stringToColor(name)
+			},
+			children: `${capitalizeFirstLetter(name.split(" ")[0][0])}`
+		};
+	}
+
+	const handleUserMenuNav = (setting) => {
+		if (setting === "profile") {
+			handleCloseUserMenu();
+			navigate("/profile");
+		} else if (setting === "workout") {
+			if (workout.currentWorkout.username === undefined) {
+				enqueueSnackbar("Oops! You have no ongoing workout!", {
+					variant: "error",
+					autoHideDuration: 2500,
+					preventDuplicate: true
+				});
+				handleCloseUserMenu();
+				setTimeout(() => {
+					enqueueSnackbar("Tip: Start a workout in the home screen", {
+						variant: "info",
+						autoHideDuration: 2500,
+						preventDuplicate: true
+					});
+				}, 2800);
+				return null;
+			} else {
+				handleCloseUserMenu();
+				navigate("/workout");
+			}
+		} else if (setting === "logout") {
+			handleCloseUserMenu();
+			navigate("/logout");
+		} else {
+			handleCloseUserMenu();
+			navigate(setting);
+		}
+	};
+
 	return (
 		<AppBar position='static'>
 			<Container maxWidth='xl'>
@@ -49,8 +117,8 @@ export default function TopAppBar() {
 					<Typography
 						variant='h6'
 						noWrap
-						component='a'
-						href='/'
+						component='div'
+						href='/home'
 						sx={{
 							mr: 2,
 							display: { xs: "none", md: "flex" },
@@ -97,7 +165,9 @@ export default function TopAppBar() {
 										handleCloseNavMenu &&
 										(() => navigate("/" + page.toLowerCase()))
 									}>
-									<Typography textAlign='center'>{page}</Typography>
+									<Typography textAlign='center' fontFamily='monospace'>
+										{page}
+									</Typography>
 								</MenuItem>
 							))}
 						</Menu>
@@ -108,8 +178,7 @@ export default function TopAppBar() {
 					<Typography
 						variant='h5'
 						noWrap
-						component='a'
-						href=''
+						component='div'
 						sx={{
 							mr: 2,
 							display: { xs: "flex", md: "none" },
@@ -122,6 +191,17 @@ export default function TopAppBar() {
 						}}>
 						ProgressAD
 					</Typography>
+					<Typography
+						variant='h3'
+						noWrap
+						component='div'
+						color={"lightblue"}
+						sx={{
+							mr: 1,
+							ml: 0
+						}}>
+						|
+					</Typography>
 					<Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
 						{pages.map((page) => (
 							<Button
@@ -130,7 +210,15 @@ export default function TopAppBar() {
 									handleCloseNavMenu &&
 									(() => navigate("/" + page.toLowerCase()))
 								}
-								sx={{ my: 2, color: "white", display: "block" }}>
+								sx={{
+									my: 2,
+									color: "white",
+									display: "block",
+									fontFamily: "monospace",
+									fontWeight: 700,
+									fontSize: "1.2rem",
+									letterSpacing: ".1rem"
+								}}>
 								{page}
 							</Button>
 						))}
@@ -139,7 +227,7 @@ export default function TopAppBar() {
 					<Box sx={{ flexGrow: 0 }}>
 						<Tooltip title='Open settings'>
 							<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-								<Avatar alt='blank' src='' />
+								<Avatar {...stringAvatar(user.username)} />
 							</IconButton>
 						</Tooltip>
 						<Menu
@@ -162,7 +250,7 @@ export default function TopAppBar() {
 									key={setting}
 									onClick={
 										handleCloseUserMenu &&
-										(() => navigate("/" + setting.toLowerCase()))
+										(() => handleUserMenuNav(setting.toLowerCase()))
 									}>
 									<Typography textAlign='center'>{setting}</Typography>
 								</MenuItem>

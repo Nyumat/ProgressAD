@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
 		required: true,
 		minlength: 4,
 		maxlength: 99999,
-		unique: true
+		unique: false
 	},
 	initLogin: {
 		type: Boolean,

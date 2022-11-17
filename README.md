@@ -42,8 +42,7 @@ CLOUDINARY_API_KEY=XXXXX
 CLOUDINARY_API_SECRET=XXXXX
 ```
 
-> _--> Replace '**XXXXX**' with the actual values or else the api won't function properly!_
-> <br>--> Cloudinary SDK authentication details _[here.](https://cloudinary.com/documentation/node_integration#setting_configuration_parameters_globally)_
+> _--> Replace '**XXXXX**' with the actual values or else the api won't function properly!_ > <br>--> Cloudinary SDK authentication details _[here.](https://cloudinary.com/documentation/node_integration#setting_configuration_parameters_globally)_
 
 Now that you've setup the enviornment variables and cloned the repository, it's time to run the dev server.
 

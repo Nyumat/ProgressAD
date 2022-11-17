@@ -15,8 +15,8 @@ const machineSchema = new mongoose.Schema({
 	},
 	machine_type: {
 		type: String,
-		enum: ["Cardio", "Strength", "Other", "none"],
-		default: "none",
+		enum: ["Cardio", "Strength", "Other", "None"],
+		default: "None",
 		required: false
 	},
 	machine_status: {
@@ -51,7 +51,7 @@ const machineSchema = new mongoose.Schema({
 	machine_id: {
 		type: String,
 		required: false,
-		unique: true
+		unique: false
 	}
 });
 
@@ -62,18 +62,18 @@ const workoutSchema = new mongoose.Schema({
 		unqiue: false
 	},
 	workOutType: {
-		enum: ["Cardio", "Strength", "Other", "none"],
+		enum: ["Cardio", "Strength", "Other", "None"],
 		type: String,
 		required: false,
 		unique: false,
-		default: "none"
+		default: "None"
 	},
 	workOutIntensity: {
-		enum: ["Low", "Medium", "High", "none"],
+		enum: ["Low", "Medium", "High", "None"],
 		type: String,
-		required: true,
+		required: false,
 		unique: false,
-		default: "none"
+		default: "None"
 	},
 	machines: [machineSchema],
 	workoutStartTimestamp: {

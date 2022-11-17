@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { getUser, loadToken } from "../../slices/userSlice";
 import FitnessCenter from "@mui/icons-material/FitnessCenter";
 import { LoadingButton } from "@mui/lab";
+import { getGlobalMachines } from "../../slices/workoutSlice";
 
 function Copyright(props) {
 	return (
@@ -22,9 +23,15 @@ function Copyright(props) {
 			variant='body2'
 			color='text.secondary'
 			align='center'
-			{...props}>
+			sx={{
+				position: "absolute",
+				bottom: 15,
+				ml: 17
+			}}>
 			{"Copyright © "}
-			<Link color='inherit' href='https://mui.com/'>
+			<Link
+				color='inherit'
+				href='https://github.com/TrackMeAtDixon/Progress#readme'>
 				ProgressAD
 			</Link>{" "}
 			{new Date().getFullYear()}.
@@ -84,6 +91,7 @@ export default function Login() {
 			.then((response) => {
 				if (response.status === 200) {
 					dispatch(getUser(data.get("username")));
+					dispatch(getGlobalMachines());
 
 					setTimeout(() => {
 						setLoading(false);
