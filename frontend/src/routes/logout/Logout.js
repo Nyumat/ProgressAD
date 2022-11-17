@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import "../../styles/App.css";
 import { logout } from "../../slices/userSlice";
+import { unloadWorkout } from "../../slices/workoutSlice";
 
 function Logout() {
 	const seconds = 3;
@@ -14,6 +15,7 @@ function Logout() {
 	useEffect(() => {
 		localStorage.removeItem("token");
 		dispatch(logout());
+		dispatch(unloadWorkout());
 		if (!timeLeft) {
 			navigate("/login");
 			return;

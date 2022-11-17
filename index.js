@@ -25,7 +25,7 @@ import update_cardio from "./routes/crud/update/update_cardio.js";
 import add_machine from "./routes/crud/update/add_machine.js";
 import create_workout from "./routes/crud/create/create_workout.js";
 import create_machine from "./routes/crud/create/create_machine.js";
-import end_use from "./routes/crud/delete/end_use.js";
+import update_status from "./routes/crud/update/update_status.js";
 import end_workout from "./routes/crud/delete/end_workout.js";
 
 dotenv.config();
@@ -71,8 +71,8 @@ app.use("/api/workout/machines/cardio/add", update_cardio);
 app.use("/api/machine/create", create_machine);
 // Get all the machines in the dixon collection
 app.use("/api/machines/get", get_machines);
-// End the use of a machine in a workout.
-app.use("/api/machine/end_use", end_use);
+// Update a machine's status in a workout.
+app.use("/api/machine/update_status", update_status);
 // Update the user's profile
 app.use("/api/users/update", update_user);
 // Get the user's workout and saved workouts.
