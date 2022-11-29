@@ -9,7 +9,6 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import axios from "axios";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { getUser, loadToken } from "../../slices/userSlice";
@@ -39,11 +38,9 @@ function Copyright(props) {
 	);
 }
 
-const theme = createTheme();
-
 export default function Login() {
 	const [loading, setLoading] = useState(false);
-	const [color, setColor] = useState("primary");
+	const [color, setColor] = useState("secondary");
 
 	const [errorUsername, setErrorUsername] = useState(false);
 	const [errorPin, setErrorPin] = useState(false);
@@ -152,97 +149,95 @@ export default function Login() {
 	};
 
 	return (
-		<ThemeProvider theme={theme}>
-			<Grid container component='main' sx={{ height: "100vh" }}>
-				<CssBaseline />
-				<Grid
-					item
-					xs={false}
-					sm={4}
-					md={7}
+		<Grid container component='main' sx={{ height: "100vh" }}>
+			<CssBaseline />
+			<Grid
+				item
+				xs={false}
+				sm={4}
+				md={7}
+				sx={{
+					backgroundImage:
+						"url(https://educationsnapshots.com/wp-content/uploads/sites/4/2021/10/oregon-state-university-dixon-recreation-center-racquetball-court-conversions-1-1536x1381.jpg)",
+					backgroundRepeat: "no-repeat",
+					backgroundColor: (t) =>
+						t.palette.mode === "light"
+							? t.palette.grey[50]
+							: t.palette.grey[900],
+					backgroundSize: "cover",
+					backgroundPosition: "center"
+				}}
+			/>
+			<Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+				<Box
 					sx={{
-						backgroundImage:
-							"url(https://educationsnapshots.com/wp-content/uploads/sites/4/2021/10/oregon-state-university-dixon-recreation-center-racquetball-court-conversions-1-1536x1381.jpg)",
-						backgroundRepeat: "no-repeat",
-						backgroundColor: (t) =>
-							t.palette.mode === "light"
-								? t.palette.grey[50]
-								: t.palette.grey[900],
-						backgroundSize: "cover",
-						backgroundPosition: "center"
-					}}
-				/>
-				<Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+						my: 8,
+						mx: 4,
+						display: "flex",
+						flexDirection: "column",
+						alignItems: "center"
+					}}>
+					<Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
+						<FitnessCenter />
+					</Avatar>
+					<Typography component='h1' variant='h5'>
+						Login
+					</Typography>
 					<Box
-						sx={{
-							my: 8,
-							mx: 4,
-							display: "flex",
-							flexDirection: "column",
-							alignItems: "center"
-						}}>
-						<Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
-							<FitnessCenter />
-						</Avatar>
-						<Typography component='h1' variant='h5'>
+						component='form'
+						noValidate
+						onSubmit={handleSubmit}
+						sx={{ mt: 1 }}>
+						<TextField
+							error={errorUsername}
+							margin='normal'
+							required
+							fullWidth
+							id='username'
+							label={switchLabelUsername(errorUsername)}
+							name='username'
+							autoComplete='username'
+							autoFocus
+						/>
+						<TextField
+							error={errorPin}
+							margin='normal'
+							required
+							fullWidth
+							name='pin'
+							label={switchLabelPin(errorPin)}
+							type='password'
+							id='pin'
+							autoComplete='current-password'
+						/>
+						<LoadingButton
+							loading={loading}
+							loadingPosition='center'
+							sx={{ mt: 3, mb: 2 }}
+							fullWidth
+							color={color}
+							type='submit'
+							variant='contained'>
 							Login
-						</Typography>
-						<Box
-							component='form'
-							noValidate
-							onSubmit={handleSubmit}
-							sx={{ mt: 1 }}>
-							<TextField
-								error={errorUsername}
-								margin='normal'
-								required
-								fullWidth
-								id='username'
-								label={switchLabelUsername(errorUsername)}
-								name='username'
-								autoComplete='username'
-								autoFocus
-							/>
-							<TextField
-								error={errorPin}
-								margin='normal'
-								required
-								fullWidth
-								name='pin'
-								label={switchLabelPin(errorPin)}
-								type='password'
-								id='pin'
-								autoComplete='current-password'
-							/>
-							<LoadingButton
-								loading={loading}
-								loadingPosition='center'
-								sx={{ mt: 3, mb: 2 }}
-								fullWidth
-								color={color}
-								type='submit'
-								variant='contained'>
-								Login
-							</LoadingButton>
+						</LoadingButton>
 
-							<Grid container>
-								<Grid item xs>
-									<Link variant='body2'>Forgot Pin?</Link>
-								</Grid>
-								<Grid item>
-									<Link
-										component='button'
-										onClick={navigateRegister}
-										variant='body2'>
-										Don't have an account? Sign up.
-									</Link>
-								</Grid>
+						<Grid container>
+							<Grid item xs>
+								<Link variant='body2'>Forgot Pin?</Link>
 							</Grid>
-							<Copyright sx={{ mt: 5 }} />
-						</Box>
+							<Grid item>
+								<Link
+									component='button'
+									onClick={navigateRegister}
+									variant='body2'>
+									Don't have an account? Sign up.
+								</Link>
+							</Grid>
+						</Grid>
+						<Copyright sx={{ mt: 5 }} />
 					</Box>
-				</Grid>
+				</Box>
 			</Grid>
-		</ThemeProvider>
+		</Grid>
 	);
 }

@@ -112,6 +112,7 @@ export default function TopAppBar() {
 			<Container maxWidth='xl'>
 				<Toolbar disableGutters>
 					<FitnessCenterIcon
+						color='secondary'
 						sx={{ display: { xs: "none", md: "flex" }, mr: 2 }}
 					/>
 					<Typography
@@ -119,13 +120,13 @@ export default function TopAppBar() {
 						noWrap
 						component='div'
 						href='/home'
+						color='white'
 						sx={{
 							mr: 2,
 							display: { xs: "none", md: "flex" },
 							fontFamily: "monospace",
 							fontWeight: 700,
 							letterSpacing: ".3rem",
-							color: "inherit",
 							textDecoration: "none"
 						}}>
 						ProgressAD
@@ -165,7 +166,10 @@ export default function TopAppBar() {
 										handleCloseNavMenu &&
 										(() => navigate("/" + page.toLowerCase()))
 									}>
-									<Typography textAlign='center' fontFamily='monospace'>
+									<Typography
+										textAlign='center'
+										fontFamily='monospace'
+										color='white'>
 										{page}
 									</Typography>
 								</MenuItem>
@@ -173,12 +177,14 @@ export default function TopAppBar() {
 						</Menu>
 					</Box>
 					<FitnessCenterIcon
+						color='secondary'
 						sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
 					/>
 					<Typography
 						variant='h5'
 						noWrap
 						component='div'
+						color='white'
 						sx={{
 							mr: 2,
 							display: { xs: "flex", md: "none" },
@@ -186,7 +192,6 @@ export default function TopAppBar() {
 							fontFamily: "monospace",
 							fontWeight: 700,
 							letterSpacing: ".3rem",
-							color: "inherit",
 							textDecoration: "none"
 						}}>
 						ProgressAD
@@ -194,8 +199,8 @@ export default function TopAppBar() {
 					<Typography
 						variant='h3'
 						noWrap
+						color='secondary'
 						component='div'
-						color={"lightblue"}
 						sx={{
 							mr: 1,
 							ml: 0
@@ -212,12 +217,12 @@ export default function TopAppBar() {
 								}
 								sx={{
 									my: 2,
-									color: "white",
 									display: "block",
 									fontFamily: "monospace",
 									fontWeight: 700,
 									fontSize: "1.2rem",
-									letterSpacing: ".1rem"
+									letterSpacing: ".1rem",
+									color: "#fff"
 								}}>
 								{page}
 							</Button>

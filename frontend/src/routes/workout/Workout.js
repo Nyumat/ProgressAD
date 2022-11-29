@@ -55,15 +55,17 @@ export default function Workout() {
 								justifyContent='center'>
 								<RateWorkoutModal />
 								<AddMachineModal />
-								<Button variant='contained'>Add Exercise</Button>
+								<Button variant='contained' color='primary'>
+									Add Exercise
+								</Button>
 							</Stack>
 							<Typography
 								paddingTop={5}
 								variant='h5'
 								align='center'
-								color='text.secondary'
+								color='white'
 								paragraph>
-								Machines Used
+								Machines Used:
 							</Typography>
 						</Container>
 					</Box>
@@ -77,7 +79,7 @@ export default function Workout() {
 							sx={{
 								pl: 3
 							}}>
-							<Typography variant='h6' align='center'>
+							<Typography variant='h6' align='center' color='primary'>
 								No Machines
 							</Typography>
 						</Grid>
@@ -86,15 +88,18 @@ export default function Workout() {
 							<Grid item xs={12} sm={6} md={4} lg={3} key={machine.machine_id}>
 								<Box
 									sx={{
-										border: 1,
-										borderColor: "grey.500",
-										borderRadius: 1,
+										border: 2,
+										borderColor: "#ff6f00",
+										borderRadius: 4,
 										padding: 1,
 										margin: 1,
 										textAlign: "center"
 									}}>
 									<Container>
-										<Typography variant='h6' sx={{ fontWeight: "bold" }}>
+										<Typography
+											variant='h6'
+											color='primary'
+											sx={{ fontWeight: "535" }}>
 											{capitalizeFirstLetter(machine.machine_name)}
 										</Typography>
 										<MachineUseToggle

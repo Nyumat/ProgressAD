@@ -10,7 +10,6 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
 import StartWorkoutModal from "../../components/StartWorkoutModal";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useSelector, useDispatch } from "react-redux";
 import { getWorkout } from "../../slices/workoutSlice";
 import moment from "moment";
@@ -32,8 +31,6 @@ function Copyright() {
 	);
 }
 
-const theme = createTheme();
-
 export default function Home() {
 	const dispatch = useDispatch();
 	const user = useSelector(selectUser);
@@ -47,12 +44,11 @@ export default function Home() {
 	}, [user.username]);
 
 	return (
-		<ThemeProvider theme={theme}>
+		<div>
 			<CssBaseline />
 			<main>
 				<Box
 					sx={{
-						bgcolor: "background.paper",
 						pt: 8,
 						pb: 6
 					}}>
@@ -61,7 +57,14 @@ export default function Home() {
 							component={"div"}
 							variant='h2'
 							align='center'
-							color='text.primary'
+							color='#ff6f00'
+							sx={{
+								border: 1,
+								borderColor: "#ff6f00",
+								borderRadius: 10,
+								p: 2,
+								backgroundColor: "secondary.main"
+							}}
 							gutterBottom>
 							Progress At Dixon
 						</Typography>
@@ -75,9 +78,9 @@ export default function Home() {
 						<Typography
 							variant='h5'
 							align='center'
-							color='text.secondary'
+							color='white'
 							component={"div"}>
-							{capitalizeFirstLetter(user.username)}'s Recent Workouts
+							{capitalizeFirstLetter(user.username)}'s Recent Workouts:
 						</Typography>
 					</Container>
 				</Box>
@@ -98,7 +101,7 @@ export default function Home() {
 											component={"div"}
 											sx={{
 												fontSize: "1.5rem",
-												color: "black",
+												color: "#ff6f00",
 												textAlign: "center",
 												wordWrap: "break-word",
 												overflowWrap: "break-word",
@@ -235,6 +238,6 @@ export default function Home() {
 			<Box sx={{ bgcolor: "background.paper", p: 6 }} component='div'>
 				<Copyright />
 			</Box>
-		</ThemeProvider>
+		</div>
 	);
 }
