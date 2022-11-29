@@ -76,3 +76,88 @@ The code base follows a strict prettier style guideline which can be executed wi
 > You must have the package installed and a .prettierrc file in the root directory for this command to work!
 
 After this, you're now ready to run `npm run dev` and start the application!
+
+## API Reference
+
+```
+/api/users/register | register a user
+method: POST 
+input: username, pin, weight, height, BMI, bloodType (optional)
+output: status code, msg, token
+
+/api/users/login | log in a user
+method: POST 
+input: username, pin
+output: status code, msg, token 
+
+/api/users/logout | logout a user
+method: PATCH
+input: username
+output: status code, msg
+
+/api/users/init_login | (pending deletion?) set inital login to false
+method: PATCH 
+input: username
+output: status code, msg
+
+/api/users/get | Get the user {username}'s document from MongoDB
+method: GET
+input: username
+output: status code, msg, user
+
+/api/workouts/create | Create a new workout for a user
+method: POST 
+input: username, workoutType, workoutIntensity
+output: status code, msg
+
+/api/workout/machines/add | Add a new machine to a user's workout
+method: POST 
+input: username, machine_id
+output: status code, msg
+
+/api/workout/machines/sets/add | Append a new set to a Strength type machine
+method: PUT
+input: username, reps, weight, machine_id
+output: status code, msg
+
+/api/workout/machines/cardio/add | Append a new exercise to a Cardio type machine
+method: PUT
+input: username, distance, timeSpent, machine_id
+output: status code, msg
+
+/api/machines/create | Upload a new machine to the Dixon Rec. Center collection.
+method: POST
+input: machine_name, machine_type 
+output: status code, message
+
+/api/machines/get | Get all the machines in the Dixon collection.
+method: GET
+input: none
+output: msg, 
+machines{machine_name,machine_id,machine_type,machine_status,machine_image}
+
+/api/machines/update_status | Update the status of a machine at Dixon.
+method: PUT
+input: machine_id, username 
+output: status code, msg, machines
+
+/api/users/update | Update and save the profile of the user.
+method: PUT
+input: old_username, username, weight,  height, BMI, age, firstName, lastName
+output: status code, msg, user
+
+/api/workouts/get | Get the user's current workout and past saved workouts
+method: GET
+input: username 
+output: status code, msg, currentWorkout, savedWorkouts
+
+/api/workout/rate | Rate the user's workout before ending.
+method: PATCH
+input: username, effortLevel, tirednessLevel
+output: status code, msg
+
+/api/workout/end | End the user's current workout
+method: PATCH
+input: username
+output: status code, msg, savedWorkouts
+```
