@@ -18,12 +18,12 @@ export default function MachineUseToggle({ machine_id, username }) {
 	const [inUse, setInUse] = React.useState(machine.machine_status !== true);
 
 	const dixonMachines = useSelector(selectMachines);
-
 	const handleChange = (event) => {
-		if (
-			dixonMachines.find((machine) => machine.machine_id === machine_id)
-				.machine_status === false &&
-			machine.machine_status === true
+	
+	if (
+		dixonMachines.find((machine) => machine.machine_id === machine_id)
+		.machine_status === false &&
+		machine.machine_status === true
 		) {
 			enqueueSnackbar("Machine is currently being used by someone else!", {
 				variant: "error",

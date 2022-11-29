@@ -48,7 +48,7 @@ export default function Machines() {
 						srcSet={`${machine.machine_image}?w=248&fit=crop&auto=format 1x,
                                     ${machine.machine_image}?w=248&fit=crop&auto=format&dpr=2 2x`}
 						alt={machine.machine_name}
-						loading='eager'
+						loading='lazy'
 					/>
 					<ImageListItemBar
 						title={machine.machine_name}

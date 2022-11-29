@@ -1,48 +1,20 @@
 import { Button, Container, Grid, Typography, Box, Stack } from "@mui/material";
-import React, { useState, useLayoutEffect } from "react";
+import React, { useLayoutEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { endWorkout, selectCurrentWorkout } from "../../slices/workoutSlice";
-import { useNavigate } from "react-router";
-import LoadingButton from "@mui/lab/LoadingButton";
+import { selectCurrentWorkout } from "../../slices/workoutSlice";
 import { selectUser } from "../../slices/userSlice";
-import { useSnackbar } from "notistack";
 import { capitalizeFirstLetter } from "../../scripts/global";
 import AddMachineModal from "../../components/AddMachineModal";
 import { getMachinesAtDixon, selectMachines } from "../../slices/dixonSlice";
 import MachineUseToggle from "../../components/MachineUseToggle";
+import RateWorkoutModal from "../../components/RateWorkoutModal";
 
 export default function Workout() {
 	const dispatch = useDispatch();
-	const navigate = useNavigate();
 	const user = useSelector(selectUser);
 
 	const currentWorkout = useSelector(selectCurrentWorkout);
 	const dixonMachines = useSelector(selectMachines);
-	const [loading, setLoading] = useState(false);
-	const [color, setColor] = useState("primary");
-	const { enqueueSnackbar } = useSnackbar();
-
-	const handleClick = (e) => {
-		e.preventDefault();
-		setLoading(true);
-		setTimeout(() => {
-			dispatch(endWorkout(user.username));
-		}, 2800);
-
-		setTimeout(() => {
-			setLoading(false);
-			setColor("success");
-			enqueueSnackbar("Workout Ended!", {
-				variant: "success",
-				autoHideDuration: 1300,
-				preventDuplicate: true
-			});
-		}, 1500);
-
-		setTimeout(() => {
-			navigate("/home");
-		}, 2800);
-	};
 
 	const getImageUrl = (machine_id) => {
 		const machine = dixonMachines.find(
@@ -81,14 +53,7 @@ export default function Workout() {
 								direction='row'
 								spacing={2}
 								justifyContent='center'>
-								<LoadingButton
-									variant='contained'
-									onClick={handleClick}
-									loading={loading}
-									color={color}
-									loadingPosition='center'>
-									End Workout
-								</LoadingButton>
+								<RateWorkoutModal />
 								<AddMachineModal />
 								<Button variant='contained'>Add Exercise</Button>
 							</Stack>

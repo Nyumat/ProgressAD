@@ -21,7 +21,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 	return <Slide direction='up' ref={ref} {...props} />;
 });
 
-export default function Modal() {
+export default function StartWorkoutModal() {
 	const [loading, setLoading] = useState(false);
 	const [color, setColor] = useState("primary");
 
@@ -46,7 +46,10 @@ export default function Modal() {
 	};
 
 	const handleClose = () => {
+		setValue("");
+		setSecondValue("");
 		setOpen(false);
+		setSecondOpen(false);
 	};
 
 	const handleSecondClose = () => {
@@ -196,7 +199,7 @@ export default function Modal() {
 				</DialogContent>
 				<DialogActions>
 					<Button onClick={goBack}>Back</Button>
-					<Button onClick={handleSecondClose}>Cancel</Button>
+					<Button onClick={handleClose}>Cancel</Button>
 					<Button onClick={handleSecondClose}>Start</Button>
 				</DialogActions>
 			</Dialog>

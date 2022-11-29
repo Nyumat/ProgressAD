@@ -202,7 +202,7 @@ export default function Reports() {
 				flexDirection: "column",
 				alignItems: "center",
 				justifyContent: "center",
-				height: "125vh"
+				height: "105vh"
 			}}>
 			<Typography
 				variant='h2'
