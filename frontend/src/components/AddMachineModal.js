@@ -129,7 +129,7 @@ export default function AddMachineModal() {
 		setOpen(false);
 		enqueueSnackbar("Machine Added Successfully!", {
 			variant: "success",
-			autoHideDuration: 2300,
+			autoHideDuration: 2800,
 			preventDuplicate: true
 		});
 
@@ -138,11 +138,11 @@ export default function AddMachineModal() {
 				"Tip: Use the machine and come back here to log your exercise!",
 				{
 					variant: "info",
-					autoHideDuration: 3000,
+					autoHideDuration: 3800,
 					preventDuplicate: true
 				}
 			);
-		}, 1500);
+		}, 2500);
 
 		setValue("");
 		setTimeout(() => {}, 2800);

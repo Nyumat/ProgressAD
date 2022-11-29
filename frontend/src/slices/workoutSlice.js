@@ -85,6 +85,22 @@ export const endWorkout = createAsyncThunk(
 	}
 );
 
+export const rateWorkout = createAsyncThunk(
+	"workout/rateWorkout",
+	async (values, { rejectWithValue }) => {
+		try {
+			const response = await axios.patch(`/api/workout/rate`, {
+				username: values.username,
+				effortLevel: values.effortLevel,
+				tirednessLevel: values.tirednessLevel
+			});
+			return response.data;
+		} catch (err) {
+			return rejectWithValue(err.response.data);
+		}
+	}
+);
+
 export const workoutSlice = createSlice({
 	name: "workout",
 	initialState: initState,
@@ -189,6 +205,17 @@ export const workoutSlice = createSlice({
 		});
 		builder.addCase(addMachineToWorkout.rejected, (state, action) => {
 			state.status = "Machine addition failed";
+			state.error = action.payload.msg;
+		});
+		builder.addCase(rateWorkout.pending, (state) => {
+			state.status = "Rating workout...";
+		});
+		builder.addCase(rateWorkout.fulfilled, (state, action) => {
+			state.status = action.payload.msg;
+			state.error = "";
+		});
+		builder.addCase(rateWorkout.rejected, (state, action) => {
+			state.status = "Workout rating failed";
 			state.error = action.payload.msg;
 		});
 	}

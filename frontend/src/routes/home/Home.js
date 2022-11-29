@@ -1,8 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from "react";
-import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CssBaseline from "@mui/material/CssBaseline";
 import Grid from "@mui/material/Grid";
@@ -11,7 +9,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
-import Modal from "../../components/Modal";
+import StartWorkoutModal from "../../components/StartWorkoutModal";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useSelector, useDispatch } from "react-redux";
 import { getWorkout } from "../../slices/workoutSlice";
@@ -72,7 +70,7 @@ export default function Home() {
 							direction='row'
 							spacing={2}
 							justifyContent='center'>
-							<Modal />
+							<StartWorkoutModal />
 						</Stack>
 						<Typography
 							variant='h5'
@@ -181,10 +179,53 @@ export default function Home() {
 												))
 											)}
 										</Typography>
+										<Stack direction='column' spacing={0} sx={{ mt: 1 }}>
+											<Typography
+												sx={{
+													fontSize: "1rem",
+													color: "grey",
+													textAlign: "center"
+												}}
+												variant='body2'
+												color='text.secondary'
+												component={"div"}>
+												Effort Level:
+											</Typography>
+											<Typography
+												sx={{
+													fontSize: "1rem",
+													color: "grey",
+													textAlign: "center"
+												}}
+												variant='body2'
+												color='text.secondary'
+												component={"div"}>
+												{workout.effortLevel}
+											</Typography>
+											<Typography
+												sx={{
+													fontSize: "1rem",
+													color: "grey",
+													textAlign: "center"
+												}}
+												variant='body2'
+												color='text.secondary'
+												component={"div"}>
+												Tiredness Level:
+											</Typography>
+											<Typography
+												sx={{
+													fontSize: "1rem",
+													color: "grey",
+													textAlign: "center"
+												}}
+												variant='body2'
+												color='text.secondary'
+												component={"div"}>
+												{workout.tirednessLevel}
+											</Typography>
+										</Stack>
 									</CardContent>
-									<CardActions>
-										<Button size='small'>View</Button>
-									</CardActions>
 								</Card>
 							</Grid>
 						))}
