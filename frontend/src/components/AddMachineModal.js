@@ -24,7 +24,6 @@ import {
 import { useSnackbar } from "notistack";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { getMachinesAtDixon, selectMachines } from "../slices/dixonSlice";
-import blue from "@mui/material/colors/blue";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
 	return <Slide direction='up' ref={ref} {...props} />;
@@ -155,7 +154,7 @@ export default function AddMachineModal() {
 
 	return (
 		<div>
-			<Button variant='contained' onClick={handleClickOpen}>
+			<Button variant='contained' color='primary' onClick={handleClickOpen}>
 				Add Machine
 			</Button>
 			<Dialog
@@ -199,23 +198,15 @@ export default function AddMachineModal() {
 											title={machine.machine_name}
 											subtitle={<span>{machine.machine_type}</span>}
 											sx={{
-												background: `linear-gradient(to bottom, ${"#42a5f5"} 0%, ${
-													blue[600]
-												} 70%, ${blue[500]} 100%)`
+												background:
+													"linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, " +
+													"rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)"
 											}}
 											actionIcon={
 												<FormControlLabel
 													component='div'
 													value={machine.machine_id}
-													control={
-														<Radio
-															sx={{
-																"&.Mui-checked": {
-																	color: "#ff9800"
-																}
-															}}
-														/>
-													}
+													control={<Radio />}
 													label=''
 												/>
 											}

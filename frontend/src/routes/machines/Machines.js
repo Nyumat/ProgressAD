@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useLayoutEffect } from "react";
+import CssBaseline from "@mui/material/CssBaseline";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
@@ -17,13 +18,16 @@ export default function Machines() {
 	const dispatch = useDispatch();
 
 	useLayoutEffect(() => {
-		dispatch(getMachinesAtDixon());
 		setLoading(true);
-		setLoading(false);
-	}, []);
+		dispatch(getMachinesAtDixon());
+		setTimeout(() => {
+			setLoading(false);
+		}, 1000);
+	}, [dispatch]);
 
 	return loading === false ? (
 		<ImageList variant='masonry' cols={2} gap={1}>
+			<CssBaseline />
 			{machines.map((machine) => (
 				<ImageListItem key={machine.machine_id}>
 					<ListSubheader

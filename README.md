@@ -81,14 +81,14 @@ After this, you're now ready to run `npm run dev` and start the application!
 
 ```
 /api/users/register | register a user
-method: POST 
+method: POST
 input: username, pin, weight, height, BMI, bloodType (optional)
 output: status code, msg, token
 
 /api/users/login | log in a user
-method: POST 
+method: POST
 input: username, pin
-output: status code, msg, token 
+output: status code, msg, token
 
 /api/users/logout | logout a user
 method: PATCH
@@ -96,7 +96,7 @@ input: username
 output: status code, msg
 
 /api/users/init_login | (pending deletion?) set inital login to false
-method: PATCH 
+method: PATCH
 input: username
 output: status code, msg
 
@@ -106,12 +106,12 @@ input: username
 output: status code, msg, user
 
 /api/workouts/create | Create a new workout for a user
-method: POST 
+method: POST
 input: username, workoutType, workoutIntensity
 output: status code, msg
 
 /api/workout/machines/add | Add a new machine to a user's workout
-method: POST 
+method: POST
 input: username, machine_id
 output: status code, msg
 
@@ -127,18 +127,18 @@ output: status code, msg
 
 /api/machines/create | Upload a new machine to the Dixon Rec. Center collection.
 method: POST
-input: machine_name, machine_type 
+input: machine_name, machine_type
 output: status code, message
 
 /api/machines/get | Get all the machines in the Dixon collection.
 method: GET
 input: none
-output: msg, 
+output: msg,
 machines{machine_name,machine_id,machine_type,machine_status,machine_image}
 
 /api/machines/update_status | Update the status of a machine at Dixon.
 method: PUT
-input: machine_id, username 
+input: machine_id, username
 output: status code, msg, machines
 
 /api/users/update | Update and save the profile of the user.
@@ -148,7 +148,7 @@ output: status code, msg, user
 
 /api/workouts/get | Get the user's current workout and past saved workouts
 method: GET
-input: username 
+input: username
 output: status code, msg, currentWorkout, savedWorkouts
 
 /api/workout/rate | Rate the user's workout before ending.

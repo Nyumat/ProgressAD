@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { LoadingButton } from "@mui/lab";
 import Avatar from "@mui/material/Avatar";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -39,11 +38,9 @@ function Copyright(props) {
 	);
 }
 
-const theme = createTheme();
-
 export default function Register() {
 	const [loading, setLoading] = useState(false);
-	const [color, setColor] = useState("primary");
+	const [color, setColor] = useState("secondary");
 
 	const [errorUsername, setErrorUsername] = useState(false);
 	const [errorPin, setErrorPin] = useState(false);
@@ -204,210 +201,208 @@ export default function Register() {
 	}, []);
 
 	return (
-		<ThemeProvider theme={theme}>
-			<Grid container component='main' sx={{ height: "100vh" }}>
-				<CssBaseline />
-				<Grid
-					item
-					xs={false}
-					sm={4}
-					md={7}
+		<Grid container component='main' sx={{ height: "100vh" }}>
+			<CssBaseline />
+			<Grid
+				item
+				xs={false}
+				sm={4}
+				md={7}
+				sx={{
+					backgroundImage:
+						"url(https://www.precor.com/sites/default/files/success_images/Precor-OSU-Dixon-Rec-Center.jpg)",
+					backgroundRepeat: "no-repeat",
+					backgroundColor: (t) =>
+						t.palette.mode === "light"
+							? t.palette.grey[50]
+							: t.palette.grey[900],
+					backgroundSize: "cover",
+					backgroundPosition: "center"
+				}}
+			/>
+			<Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+				<Box
 					sx={{
-						backgroundImage:
-							"url(https://www.precor.com/sites/default/files/success_images/Precor-OSU-Dixon-Rec-Center.jpg)",
-						backgroundRepeat: "no-repeat",
-						backgroundColor: (t) =>
-							t.palette.mode === "light"
-								? t.palette.grey[50]
-								: t.palette.grey[900],
-						backgroundSize: "cover",
-						backgroundPosition: "center"
-					}}
-				/>
-				<Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+						my: 8,
+						mx: 4,
+						display: "flex",
+						flexDirection: "column",
+						alignItems: "center"
+					}}>
+					<Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
+						<FitnessCenter />
+					</Avatar>
+					<Typography component='h1' variant='h5'>
+						Register
+					</Typography>
 					<Box
-						sx={{
-							my: 8,
-							mx: 4,
-							display: "flex",
-							flexDirection: "column",
-							alignItems: "center"
-						}}>
-						<Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
-							<FitnessCenter />
-						</Avatar>
-						<Typography component='h1' variant='h5'>
-							Register
-						</Typography>
-						<Box
-							component='form'
-							noValidate
-							onSubmit={handleSubmit}
-							sx={{ mt: 1 }}>
-							<TextField
-								error={errorUsername}
-								margin='normal'
-								required
-								fullWidth
-								id='username'
-								label={switchLabelUsername(errorUsername)}
-								name='username'
-								autoComplete='username'
-								autoFocus
-							/>
-							<TextField
-								error={errorPin}
-								margin='normal'
-								required
-								fullWidth
-								name='pin'
-								label={switchLabelPin(errorPin)}
-								type='password'
-								id='pin'
-								autoComplete='current-password'
-							/>
+						component='form'
+						noValidate
+						onSubmit={handleSubmit}
+						sx={{ mt: 1 }}>
+						<TextField
+							error={errorUsername}
+							margin='normal'
+							required
+							fullWidth
+							id='username'
+							label={switchLabelUsername(errorUsername)}
+							name='username'
+							autoComplete='username'
+							autoFocus
+						/>
+						<TextField
+							error={errorPin}
+							margin='normal'
+							required
+							fullWidth
+							name='pin'
+							label={switchLabelPin(errorPin)}
+							type='password'
+							id='pin'
+							autoComplete='current-password'
+						/>
 
-							<Container>
-								<FormControl
-									sx={{ m: 1.5, ml: 4.5, minWidth: 120 }}
-									disabled={disabled}>
-									<InputLabel id='demo-simple-select-helper-label'>
-										Blood Type
-									</InputLabel>
-									<Select
-										labelId='demo-simple-select-helper-label'
-										id='demo-simple-select-helper'
-										value={bloodTypeChar}
-										label='Blood Type'
-										onChange={handleChangeBTC}>
-										<MenuItem value=''>
-											<em>None</em>
-										</MenuItem>
-										<MenuItem value={"A"}>A</MenuItem>
-										<MenuItem value={"B"}>B</MenuItem>
-										<MenuItem value={"AB"}>AB</MenuItem>
-										<MenuItem value={"O"}>O</MenuItem>
-									</Select>
-									<FormHelperText>Letter [A,B,AB,O]</FormHelperText>
-								</FormControl>
+						<Container>
+							<FormControl
+								sx={{ m: 1.5, ml: 4.5, minWidth: 120 }}
+								disabled={disabled}>
+								<InputLabel id='demo-simple-select-helper-label'>
+									Blood Type
+								</InputLabel>
+								<Select
+									labelId='demo-simple-select-helper-label'
+									id='demo-simple-select-helper'
+									value={bloodTypeChar}
+									label='Blood Type'
+									onChange={handleChangeBTC}>
+									<MenuItem value=''>
+										<em>None</em>
+									</MenuItem>
+									<MenuItem value={"A"}>A</MenuItem>
+									<MenuItem value={"B"}>B</MenuItem>
+									<MenuItem value={"AB"}>AB</MenuItem>
+									<MenuItem value={"O"}>O</MenuItem>
+								</Select>
+								<FormHelperText>Letter [A,B,AB,O]</FormHelperText>
+							</FormControl>
 
-								<FormControl sx={{ m: 1.5, minWidth: 120 }} disabled={disabled}>
-									<InputLabel id='demo-simple-select-helper-label'>
-										RhD
-									</InputLabel>
-									<Select
-										labelId='demo-simple-select-helper-label'
-										id='demo-simple-select-helper'
-										value={bloodTypeRhD}
-										label='Rhd'
-										onChange={handleChangeRhD}>
-										<MenuItem value=''>
-											<em>None</em>
-										</MenuItem>
-										<MenuItem value={"+"}>+</MenuItem>
-										<MenuItem value={"-"}>-</MenuItem>
-									</Select>
-									<FormHelperText>(+) or (-)</FormHelperText>
-								</FormControl>
-								<Box sx={{ ml: 7.5 }}>
-									<FormControlLabel
-										control={
-											<Checkbox
-												defaultValue={!disabled}
-												onChange={setInputDisabled}
-												color='success'
-											/>
-										}
-										label='I dont know my blood type.'
-									/>
-								</Box>
-							</Container>
-
-							<Box sx={{ width: 400 }}>
-								<Typography id='input-slider' gutterBottom>
-									Height (inches)
-								</Typography>
-								<Grid container spacing={2} alignItems='center'>
-									<Grid item xs>
-										<Slider
-											value={typeof heightValue === "number" ? heightValue : 0}
-											min={0}
-											max={100}
-											onChange={handleHeightSliderChange}
-											aria-labelledby='input-slider'
+							<FormControl sx={{ m: 1.5, minWidth: 120 }} disabled={disabled}>
+								<InputLabel id='demo-simple-select-helper-label'>
+									RhD
+								</InputLabel>
+								<Select
+									labelId='demo-simple-select-helper-label'
+									id='demo-simple-select-helper'
+									value={bloodTypeRhD}
+									label='Rhd'
+									onChange={handleChangeRhD}>
+									<MenuItem value=''>
+										<em>None</em>
+									</MenuItem>
+									<MenuItem value={"+"}>+</MenuItem>
+									<MenuItem value={"-"}>-</MenuItem>
+								</Select>
+								<FormHelperText>(+) or (-)</FormHelperText>
+							</FormControl>
+							<Box sx={{ ml: 7.5 }}>
+								<FormControlLabel
+									control={
+										<Checkbox
+											defaultValue={!disabled}
+											onChange={setInputDisabled}
+											color='success'
 										/>
-									</Grid>
-									<Grid item sx={{ mb: 3 }}>
-										<Input
-											value={heightValue}
-											size='small'
-											onChange={handleHeightInputChange}
-											onBlur={handleHeightBlur}
-											inputProps={{
-												"step": 10,
-												"min": 0,
-												"max": 100,
-												"type": "number",
-												"aria-labelledby": "input-slider"
-											}}
-										/>
-									</Grid>
-								</Grid>
+									}
+									label='I dont know my blood type.'
+								/>
 							</Box>
+						</Container>
 
-							<Box sx={{ width: 400 }}>
-								<Typography id='input-slider' gutterBottom>
-									Weight (lbs)
-								</Typography>
-								<Grid container spacing={2} alignItems='center'>
-									<Grid item xs>
-										<Slider
-											value={typeof weightValue === "number" ? weightValue : 0}
-											min={0}
-											max={600}
-											onChange={handleSliderChange}
-											aria-labelledby='input-slider'
-										/>
-									</Grid>
-									<Grid item sx={{ mb: 3 }}>
-										<Input
-											value={weightValue}
-											size='small'
-											onChange={handleInputChange}
-											onBlur={handleBlur}
-											inputProps={{
-												"step": 50,
-												"min": 0,
-												"max": 600,
-												"type": "number",
-												"aria-labelledby": "input-slider"
-											}}
-										/>
-									</Grid>
-								</Grid>
-							</Box>
-							<LoadingButton
-								loading={loading}
-								loadingPosition='center'
-								sx={{ mt: 3, mb: 2 }}
-								fullWidth
-								color={color}
-								type='submit'
-								variant='contained'>
-								Register
-							</LoadingButton>
-							<Grid container>
+						<Box sx={{ width: 400 }}>
+							<Typography id='input-slider' gutterBottom>
+								Height (inches)
+							</Typography>
+							<Grid container spacing={2} alignItems='center'>
 								<Grid item xs>
-									<Link href='#' variant='body2'>
-										Forgot your Pin?
-									</Link>
+									<Slider
+										value={typeof heightValue === "number" ? heightValue : 0}
+										min={0}
+										max={100}
+										onChange={handleHeightSliderChange}
+										aria-labelledby='input-slider'
+									/>
+								</Grid>
+								<Grid item sx={{ mb: 3 }}>
+									<Input
+										value={heightValue}
+										size='small'
+										onChange={handleHeightInputChange}
+										onBlur={handleHeightBlur}
+										inputProps={{
+											"step": 10,
+											"min": 0,
+											"max": 100,
+											"type": "number",
+											"aria-labelledby": "input-slider"
+										}}
+									/>
 								</Grid>
 							</Grid>
-							<Copyright />
 						</Box>
+
+						<Box sx={{ width: 400 }}>
+							<Typography id='input-slider' gutterBottom>
+								Weight (lbs)
+							</Typography>
+							<Grid container spacing={2} alignItems='center'>
+								<Grid item xs>
+									<Slider
+										value={typeof weightValue === "number" ? weightValue : 0}
+										min={0}
+										max={600}
+										onChange={handleSliderChange}
+										aria-labelledby='input-slider'
+									/>
+								</Grid>
+								<Grid item sx={{ mb: 3 }}>
+									<Input
+										value={weightValue}
+										size='small'
+										onChange={handleInputChange}
+										onBlur={handleBlur}
+										inputProps={{
+											"step": 50,
+											"min": 0,
+											"max": 600,
+											"type": "number",
+											"aria-labelledby": "input-slider"
+										}}
+									/>
+								</Grid>
+							</Grid>
+						</Box>
+						<LoadingButton
+							loading={loading}
+							loadingPosition='center'
+							sx={{ mt: 3, mb: 2 }}
+							fullWidth
+							color={color}
+							type='submit'
+							variant='contained'>
+							Register
+						</LoadingButton>
+						<Grid container>
+							<Grid item xs>
+								<Link href='#' variant='body2'>
+									Forgot your Pin?
+								</Link>
+							</Grid>
+						</Grid>
+						<Copyright />
 					</Box>
-				</Grid>
+				</Box>
 			</Grid>
-		</ThemeProvider>
+		</Grid>
 	);
 }
