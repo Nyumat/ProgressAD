@@ -161,6 +161,7 @@ method: PATCH
 input: username
 output: status code, msg, savedWorkouts
 ```
-## License 
+
+## License
 
 [MIT License](https://github.com/TrackMeAtDixon/Progress/blob/b75e580fddd1230dc5a1d11b29407203ef10aca2/LICENSE.txt)

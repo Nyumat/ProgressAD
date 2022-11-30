@@ -28,6 +28,7 @@ import create_machine from "./routes/crud/create/create_machine.js";
 import update_status from "./routes/crud/update/update_status.js";
 import end_workout from "./routes/crud/delete/end_workout.js";
 import rate_workout from "./routes/crud/update/rate_workout.js";
+import add_exercise from "./routes/crud/create/create_exercise.js";
 
 dotenv.config();
 
@@ -82,6 +83,8 @@ app.use("/api/workouts/get", get_workouts);
 app.use("/api/workout/end", end_workout);
 // Rate the user's workout.
 app.use("/api/workout/rate", rate_workout);
+// Add an exercise to a workout.
+app.use("/api/workout/exercises/add", add_exercise);
 
 app.get("/api", (req, res) => {
 	res.send({ username: os.userInfo().username });

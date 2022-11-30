@@ -8,6 +8,7 @@ import AddMachineModal from "../../components/AddMachineModal";
 import { getMachinesAtDixon, selectMachines } from "../../slices/dixonSlice";
 import MachineUseToggle from "../../components/MachineUseToggle";
 import RateWorkoutModal from "../../components/RateWorkoutModal";
+import AddExerciseModal from "../../components/AddExerciseModal";
 
 export default function Workout() {
 	const dispatch = useDispatch();
@@ -55,9 +56,7 @@ export default function Workout() {
 								justifyContent='center'>
 								<RateWorkoutModal />
 								<AddMachineModal />
-								<Button variant='contained' color='primary'>
-									Add Exercise
-								</Button>
+								<AddExerciseModal />
 							</Stack>
 							<Typography
 								paddingTop={5}

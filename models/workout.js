@@ -3,6 +3,13 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+const exerciseSchema = new mongoose.Schema({
+	exercise_name: {
+		type: String,
+		required: false
+	}
+});
+
 const machineSchema = new mongoose.Schema({
 	username: {
 		type: String,
@@ -105,9 +112,11 @@ const workoutSchema = new mongoose.Schema({
 		type: Number,
 		required: false,
 		unique: false
-	}
+	},
+	workoutExercises: [exerciseSchema]
 });
 
 const Workout = mongoose.model("Workout", workoutSchema);
 const Machine = mongoose.model("Machine", machineSchema);
-export { Workout, Machine };
+const Exercise = mongoose.model("Exercise", exerciseSchema);
+export { Workout, Machine, Exercise };
