@@ -40,17 +40,21 @@ export default function Home() {
 	const recentWorkouts = workout.completedWorkouts;
 
 	useEffect(() => {
+		document.body.style.overflow = "scroll";
 		dispatch(getWorkout(user.username));
-	}, [user.username]);
+	}, [user.username, dispatch]);
 
 	return (
-		<div>
-			<CssBaseline />
+		<div
+			style={{
+				minHeight: "100vh"
+			}}>
 			<main>
 				<Box
 					sx={{
 						pt: 8,
-						pb: 6
+						pb: 6,
+						height: "100%"
 					}}>
 					<Container maxWidth='sm'>
 						<Typography
@@ -62,8 +66,7 @@ export default function Home() {
 								border: 1,
 								borderColor: "#ff6f00",
 								borderRadius: 10,
-								p: 2,
-								backgroundColor: "secondary.main"
+								p: 2
 							}}
 							gutterBottom>
 							Progress At Dixon
@@ -75,19 +78,34 @@ export default function Home() {
 							justifyContent='center'>
 							<StartWorkoutModal />
 						</Stack>
-						<Typography
-							variant='h5'
-							align='center'
-							color='white'
-							component={"div"}>
-							{capitalizeFirstLetter(user.username)}'s Recent Workouts:
-						</Typography>
+						<Box sx={{ display: "flex", justifyContent: "center", pt: 2 }}>
+							<Typography
+								variant='h5'
+								align='center'
+								color='white'
+								border={1}
+								mx={2}
+								px={4}
+								py={1.5}
+								borderRadius={10}
+								sx={{
+									textDecoration: "underline",
+									lineHeight: 1.5,
+									textDecorationColor: "#ff6f00",
+									textUnderlineOffset: "0.2em"
+								}}
+								width='max-content'
+								borderColor='#ff6f00'
+								component={"div"}>
+								{capitalizeFirstLetter(user.username)}'s Recent Workouts
+							</Typography>
+						</Box>
 					</Container>
 				</Box>
 				<Container sx={{ py: 2 }} maxWidth='md'>
 					<Grid container spacing={4}>
-						{recentWorkouts.map((workout) => (
-							<Grid item key={workout._id} xs={12} sm={6} md={4}>
+						{recentWorkouts.map((workout, i) => (
+							<Grid item key={i} xs={12} sm={6} md={4}>
 								<Card
 									sx={{
 										height: "100%",

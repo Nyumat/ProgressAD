@@ -116,6 +116,39 @@ export const addExerciseToWorkout = createAsyncThunk(
 	}
 );
 
+export const addSetsToMachine = createAsyncThunk(
+	"workout/addSetsToExercise",
+	async (values, { rejectWithValue }) => {
+		try {
+			const workout = await axios.post("/api/workout/machines/sets/add", {
+				username: values.username,
+				machine_id: values.machine_id,
+				sets: values.sets
+			});
+			return workout.data;
+		} catch (error) {
+			return rejectWithValue(error.response.data);
+		}
+	}
+);
+
+export const addCardioDataToMachine = createAsyncThunk(
+	"workout/addCardioDataToMachine",
+	async (values, { rejectWithValue }) => {
+		try {
+			const workout = await axios.put("/api/workout/machines/cardio/add", {
+				username: values.username,
+				machine_id: values.machine_id,
+				distance: values.distance,
+				timeSpent: values.timeSpent
+			});
+			return workout.data;
+		} catch (error) {
+			return rejectWithValue(error.response.data);
+		}
+	}
+);
+
 export const workoutSlice = createSlice({
 	name: "workout",
 	initialState: initState,
@@ -243,6 +276,30 @@ export const workoutSlice = createSlice({
 		});
 		builder.addCase(addExerciseToWorkout.rejected, (state, action) => {
 			state.status = "Exercise addition failed";
+			state.error = action.payload.msg;
+		});
+		builder.addCase(addSetsToMachine.pending, (state) => {
+			state.status = "Adding sets to machine...";
+		});
+		builder.addCase(addSetsToMachine.fulfilled, (state, action) => {
+			state.status = action.payload.msg;
+			state.error = "";
+			state.currentWorkout = action.payload.workout;
+		});
+		builder.addCase(addSetsToMachine.rejected, (state, action) => {
+			state.status = "Set addition failed";
+			state.error = action.payload.msg;
+		});
+		builder.addCase(addCardioDataToMachine.pending, (state) => {
+			state.status = "Adding cardio data to machine...";
+		});
+		builder.addCase(addCardioDataToMachine.fulfilled, (state, action) => {
+			state.status = action.payload.msg;
+			state.error = "";
+			state.currentWorkout = action.payload.workout;
+		});
+		builder.addCase(addCardioDataToMachine.rejected, (state, action) => {
+			state.status = "Cardio data addition failed";
 			state.error = action.payload.msg;
 		});
 	}

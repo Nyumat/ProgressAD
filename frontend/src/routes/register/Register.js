@@ -248,7 +248,7 @@ export default function Register() {
 							id='username'
 							label={switchLabelUsername(errorUsername)}
 							name='username'
-							autoComplete='username'
+							autoComplete='off'
 							autoFocus
 						/>
 						<TextField
@@ -260,7 +260,7 @@ export default function Register() {
 							label={switchLabelPin(errorPin)}
 							type='password'
 							id='pin'
-							autoComplete='current-password'
+							autoComplete='off'
 						/>
 
 						<Container>

@@ -196,7 +196,7 @@ export default function Login() {
 							id='username'
 							label={switchLabelUsername(errorUsername)}
 							name='username'
-							autoComplete='username'
+							autoComplete='off'
 							autoFocus
 						/>
 						<TextField
@@ -208,7 +208,7 @@ export default function Login() {
 							label={switchLabelPin(errorPin)}
 							type='password'
 							id='pin'
-							autoComplete='current-password'
+							autoComplete='off'
 						/>
 						<LoadingButton
 							loading={loading}
