@@ -95,6 +95,7 @@ export default function StartWorkoutModal() {
 	return (
 		<>
 			<LoadingButton
+				sx={{ transform: "scale(1.5)" }}
 				loading={loading}
 				loadingPosition='center'
 				variant='contained'
