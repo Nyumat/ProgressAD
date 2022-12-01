@@ -14,42 +14,20 @@ router.put("/", async (req, res) => {
 
 		let workout = user.workouts[user.workouts.length - 1];
 
-		if (!workout) {
-			return res
-				.status(406)
-				.json({ msg: "You must start a workout before appending data." });
-		}
-
-		let strength_machines = workout.machines.filter(
-			(machine) => machine.machine_type === "Strength"
-		);
-
-		if (strength_machines.length > 0) {
-			for (let i = 0; i < strength_machines.length; i++) {
-				if (strength_machines[i].machine_status === false) {
-					return res
-						.status(400)
-						.json({ msg: `${user.username} is using a non-cardio machine.` });
-				}
-			}
-		}
-
 		let machine = workout.machines.find(
 			(machine) => machine.machine_id === machine_id
 		);
 
 		if (!machine) {
 			return res.status(400).json({ msg: "Machine does not exist." });
-		} else {
-			machine.distance = distance;
-			machine.timeSpent = timeSpent;
-
-			await user.save();
-
-			return res.status(200).json({
-				msg: `${machine.machine_name} updated successfully for ${username}!`
-			});
 		}
+
+		machine.distance = distance;
+		machine.timeSpent = timeSpent;
+
+		await user.save();
+
+		res.status(200).json({ msg: "Cardio added successfully.", workout });
 	} catch (error) {
 		res.send(error);
 	}

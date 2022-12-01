@@ -19,7 +19,6 @@ import logout from "./routes/auth/logout.js";
 import get_user from "./routes/crud/read/get_user.js";
 import get_machines from "./routes/crud/read/get_machines.js";
 import get_workouts from "./routes/crud/read/get_workouts.js";
-import update_set from "./routes/crud/update/update_set.js";
 import update_user from "./routes/crud/update/update_user.js";
 import update_cardio from "./routes/crud/update/update_cardio.js";
 import add_machine from "./routes/crud/update/add_machine.js";
@@ -29,6 +28,7 @@ import update_status from "./routes/crud/update/update_status.js";
 import end_workout from "./routes/crud/delete/end_workout.js";
 import rate_workout from "./routes/crud/update/rate_workout.js";
 import add_exercise from "./routes/crud/create/create_exercise.js";
+import update_set from "./routes/crud/update/update_set.js";
 
 dotenv.config();
 
@@ -65,8 +65,6 @@ app.use("/api/users/get", get_user);
 app.use("/api/workouts/create", create_workout);
 // Add a new machine to a workout.
 app.use("/api/workout/machines/add", add_machine);
-// Add a new set {reps,weight} to a strength machine.
-app.use("/api/workout/machines/sets/add", update_set);
 // Update cardio machine 'x' with a distance and time spent.
 app.use("/api/workout/machines/cardio/add", update_cardio);
 // Add a machine to the dixon collectiion
@@ -85,6 +83,8 @@ app.use("/api/workout/end", end_workout);
 app.use("/api/workout/rate", rate_workout);
 // Add an exercise to a workout.
 app.use("/api/workout/exercises/add", add_exercise);
+// Add a sets to a strength machine.
+app.use("/api/workout/machines/sets/add", update_set);
 
 app.get("/api", (req, res) => {
 	res.send({ username: os.userInfo().username });

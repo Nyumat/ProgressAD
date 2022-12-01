@@ -4,7 +4,7 @@ import { User } from "../../../models/user.js";
 import { Router } from "express";
 const router = Router();
 
-router.post("/", async (req, res) => {
+router.patch("/", async (req, res) => {
 	const { username, exercise_name } = req.body;
 
 	try {
