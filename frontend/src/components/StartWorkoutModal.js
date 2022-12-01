@@ -5,7 +5,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import Slide from "@mui/material/Slide";
+import Zoom from "@mui/material/Zoom";
 import { Radio, RadioGroup } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
@@ -18,7 +18,17 @@ import { useSnackbar } from "notistack";
 import LoadingButton from "@mui/lab/LoadingButton";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-	return <Slide direction='up' ref={ref} {...props} />;
+	return (
+		<Zoom
+			direction='up'
+			in={true}
+			timeout={1500}
+			mountOnEnter
+			unmountOnExit
+			ref={ref}
+			{...props}
+		/>
+	);
 });
 
 export default function StartWorkoutModal() {
@@ -42,7 +52,9 @@ export default function StartWorkoutModal() {
 
 	const handleSecondClickOpen = () => {
 		setOpen(false);
-		setSecondOpen(true);
+		setTimeout(() => {
+			setSecondOpen(true);
+		}, 150);
 	};
 
 	const handleClose = () => {
@@ -54,6 +66,16 @@ export default function StartWorkoutModal() {
 
 	const handleSecondClose = () => {
 		setLoading(true);
+
+		if (value === "" || secondValue === "") {
+			enqueueSnackbar("Fill out all fields!", {
+				variant: "error",
+				autoHideDuration: 2000
+			});
+			setLoading(false);
+			return;
+		}
+
 		setSecondOpen(false);
 
 		dispatch(
@@ -89,7 +111,9 @@ export default function StartWorkoutModal() {
 
 	const goBack = () => {
 		setSecondOpen(false);
-		setOpen(true);
+		setTimeout(() => {
+			setOpen(true);
+		}, 150);
 	};
 
 	return (

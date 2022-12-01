@@ -13,11 +13,14 @@ export const getUser = createAsyncThunk(
 	async (values, { rejectWithValue }) => {
 		try {
 			let username = values;
-			const user = await axios.get("/api/users/get", {
-				params: {
-					username: username
+			const user = await axios.get(
+				`${process.env.REACT_APP_TRCKME_BACKEND}/api/users/get`,
+				{
+					params: {
+						username: username
+					}
 				}
-			});
+			);
 			return user.data;
 		} catch (error) {
 			console.log(error.response);
@@ -30,7 +33,10 @@ export const updateProfile = createAsyncThunk(
 	"user/updateProfile",
 	async (values, { rejectWithValue }) => {
 		try {
-			const user = await axios.put("/api/users/update", values);
+			const user = await axios.put(
+				`${process.env.REACT_APP_TRCKME_BACKEND}/api/users/update`,
+				values
+			);
 			return user.data;
 		} catch (error) {
 			console.log(error.response);
@@ -67,6 +73,7 @@ export const userSlice = createSlice({
 			state.status = "Loading User";
 		});
 		builder.addCase(getUser.fulfilled, (state, action) => {
+			localStorage.setItem("username", action.payload.username);
 			state.token = localStorage.getItem("token");
 			state.status = action.payload.msg;
 			state.username = action.payload.user.username;

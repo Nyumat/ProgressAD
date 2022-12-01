@@ -5,7 +5,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import Slide from "@mui/material/Slide";
+import Zoom from "@mui/material/Zoom";
 import Slider from "@mui/material/Slider";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -18,7 +18,17 @@ import { useSnackbar } from "notistack";
 import LoadingButton from "@mui/lab/LoadingButton";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-	return <Slide direction='up' ref={ref} {...props} />;
+	return (
+		<Zoom
+			direction='up'
+			in={true}
+			timeout={1500}
+			mountOnEnter
+			unmountOnExit
+			ref={ref}
+			{...props}
+		/>
+	);
 });
 
 export default function RateWorkoutModal() {
@@ -54,6 +64,14 @@ export default function RateWorkoutModal() {
 
 	const handleSecondClose = () => {
 		setLoading(true);
+
+		if (effortLevel === 0 || tirednessLevel === 0) {
+			setLoading(false);
+			enqueueSnackbar("Please rate your workout!", { variant: "error" });
+			setLoading(false);
+			return;
+		}
+
 		setSecondOpen(false);
 
 		dispatch(

@@ -108,7 +108,10 @@ function Profile() {
 	]);
 
 	return (
-		<Grid container component='main'>
+		<Grid container component='main' sx={{
+			border: "1px solid #ffff",
+			height: "90vh",
+		}}>
 			<CssBaseline />
 			<Box
 				sx={{
@@ -132,7 +135,7 @@ function Profile() {
 						id='username'
 						label='Username'
 						name='username'
-						autoComplete='username'
+						autoComplete='off'
 						autoFocus
 						defaultValue={user.username}
 						onChange={(e) => setUsername(e.target.value)}
@@ -143,7 +146,7 @@ function Profile() {
 						id='firstName'
 						label='First Name'
 						name='firstName'
-						autoComplete='firstName'
+						autoComplete='off'
 						autoFocus
 						defaultValue={user.firstName}
 						onChange={(e) => setFirstName(e.target.value)}
@@ -154,7 +157,7 @@ function Profile() {
 						id='lastName'
 						label='Last Name'
 						name='lastName'
-						autoComplete='lastName'
+						autoComplete='off'
 						autoFocus
 						defaultValue={user.lastName}
 						onChange={(e) => setLastName(e.target.value)}
@@ -166,7 +169,7 @@ function Profile() {
 						id='age'
 						label='Age'
 						name='age'
-						autoComplete='age'
+						autoComplete='off'
 						autoFocus
 						defaultValue={user.age}
 						onChange={(e) => setAge(e.target.value)}

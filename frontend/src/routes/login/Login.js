@@ -18,23 +18,31 @@ import { getGlobalMachines } from "../../slices/workoutSlice";
 
 function Copyright(props) {
 	return (
-		<Typography
-			variant='body2'
-			color='text.secondary'
-			align='center'
+		<Box
 			sx={{
-				position: "absolute",
-				bottom: 15,
-				ml: 17
+				display: "flex",
+				justifyContent: "center",
+				mt: "80%"
 			}}>
-			{"Copyright © "}
-			<Link
-				color='inherit'
-				href='https://github.com/TrackMeAtDixon/Progress#readme'>
-				ProgressAD
-			</Link>{" "}
-			{new Date().getFullYear()}.
-		</Typography>
+			<Typography variant='body2' color='text.secondary' align='center'>
+				{"Copyright © "}
+				<Link
+					color='inherit'
+					href='https://github.com/TrackMeAtDixon/Progress#readme'
+					sx={{
+						"textDecoration": "none",
+						"borderRadius": "4px",
+						"transition": "0.3s",
+						"&:hover": {
+							backgroundColor: "#ff6f00",
+							color: "white"
+						}
+					}}>
+					ProgressAD
+				</Link>{" "}
+				{new Date().getFullYear()}.
+			</Typography>
+		</Box>
 	);
 }
 
@@ -81,7 +89,7 @@ export default function Login() {
 		const data = new FormData(event.currentTarget);
 
 		axios
-			.post("http://localhost:8080/api/users/login", {
+			.post(`${process.env.REACT_APP_TRCKME_BACKEND}/api/users/login`, {
 				username: data.get("username"),
 				pin: data.get("pin")
 			})
@@ -97,6 +105,7 @@ export default function Login() {
 
 					setTimeout(() => {
 						dispatch(loadToken(response.data.token));
+						dispatch(getUser(data.get("username")));
 						navigate("/home");
 					}, 2500);
 				}
@@ -196,7 +205,7 @@ export default function Login() {
 							id='username'
 							label={switchLabelUsername(errorUsername)}
 							name='username'
-							autoComplete='username'
+							autoComplete='off'
 							autoFocus
 						/>
 						<TextField
@@ -208,7 +217,7 @@ export default function Login() {
 							label={switchLabelPin(errorPin)}
 							type='password'
 							id='pin'
-							autoComplete='current-password'
+							autoComplete='off'
 						/>
 						<LoadingButton
 							loading={loading}

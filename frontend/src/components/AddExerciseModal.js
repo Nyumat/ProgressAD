@@ -7,7 +7,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import TextField from "@mui/material/TextField";
 import DialogTitle from "@mui/material/DialogTitle";
-import Slide from "@mui/material/Slide";
+import Zoom from "@mui/material/Zoom";
 import Box from "@mui/material/Box";
 import {
 	FormControl,
@@ -32,7 +32,17 @@ import {
 } from "../scripts/global";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-	return <Slide direction='up' ref={ref} {...props} />;
+	return (
+		<Zoom
+			direction='up'
+			in={true}
+			timeout={1500}
+			mountOnEnter
+			unmountOnExit
+			ref={ref}
+			{...props}
+		/>
+	);
 });
 
 export default function AddExerciseModal() {
@@ -105,15 +115,21 @@ export default function AddExerciseModal() {
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		const data = new FormData(event.currentTarget);
-		console.log(data);
 	};
 
 	const handleClick = (event) => {
 		event.preventDefault();
 		setLoading(true);
-		handleClose();
 
 		if (isCardio) {
+			if (distance === "" || timeSpent === "") {
+				enqueueSnackbar("Fill out all fields!", {
+					variant: "error",
+					autoHideDuration: 2000
+				});
+				setLoading(false);
+				return;
+			}
 			dispatch(
 				addCardioDataToMachine({
 					username: user.username,
@@ -122,6 +138,7 @@ export default function AddExerciseModal() {
 					machine_id: mapMachineNameToMachineId(selectedMachine)
 				})
 			);
+			handleClose();
 			setTimeout(() => {
 				setLoading(false);
 				setColor("success");
@@ -137,6 +154,14 @@ export default function AddExerciseModal() {
 		}
 
 		if (isOther || isNone) {
+			if (other === "") {
+				enqueueSnackbar("Fill out all fields!", {
+					variant: "error",
+					autoHideDuration: 2000
+				});
+				setLoading(false);
+				return;
+			}
 			dispatch(
 				addExerciseToWorkout({
 					username: user.username,
@@ -223,6 +248,14 @@ export default function AddExerciseModal() {
 		e.preventDefault();
 		setLoading(true);
 		if (isStrength) {
+			if (sets === "" || setsCompleted.length === 0) {
+				enqueueSnackbar("Fill out all fields!", {
+					variant: "error",
+					autoHideDuration: 2000
+				});
+				setLoading(false);
+				return;
+			}
 			dispatch(
 				addSetsToMachine({
 					username: user.username,
@@ -419,7 +452,7 @@ export default function AddExerciseModal() {
 									name='radio-buttons-group'
 									value={selectedMachine}
 									onChange={handleChange}>
-									{currentWorkout.machines.map((machine) => (
+									{currentWorkout.machines?.map((machine) => (
 										<FormControlLabel
 											key={machine._id}
 											value={machine.machine_name}

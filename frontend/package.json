@@ -2,7 +2,6 @@
 	"name": "frontend-progress",
 	"version": "1.0.0",
 	"description": "Frontend for ProgressAD",
-	"proxy": "http://localhost:8080/",
 	"private": true,
 	"dependencies": {
 		"@emotion/react": "^11.10.5",

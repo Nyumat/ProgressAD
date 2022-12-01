@@ -13,6 +13,7 @@ function Logout() {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
+		document.title = `Logout | ${timeLeft} seconds remaining | ProgressAD`;
 		localStorage.removeItem("token");
 		dispatch(logout());
 		dispatch(unloadWorkout());

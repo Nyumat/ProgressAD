@@ -5,7 +5,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import Slide from "@mui/material/Slide";
+import Zoom from "@mui/material/Zoom";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -17,16 +17,26 @@ import { selectUser } from "../slices/userSlice";
 import { useSelector, useDispatch } from "react-redux";
 import {
 	addMachineToWorkout,
-	selectCurrentWorkout,
-	selectMachinesInUse
+	selectCurrentWorkout
 } from "../slices/workoutSlice";
 
 import { useSnackbar } from "notistack";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { getMachinesAtDixon, selectMachines } from "../slices/dixonSlice";
+import { useEffect } from "react";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-	return <Slide direction='up' ref={ref} {...props} />;
+	return (
+		<Zoom
+			direction='up'
+			in={true}
+			timeout={1000}
+			mountOnEnter
+			unmountOnExit
+			ref={ref}
+			{...props}
+		/>
+	);
 });
 
 export default function AddMachineModal() {
@@ -43,7 +53,6 @@ export default function AddMachineModal() {
 
 	const dixonMachines = useSelector(selectMachines);
 	const currentWorkout = useSelector(selectCurrentWorkout);
-	const machinesInUse = useSelector(selectMachinesInUse);
 
 	const handleClickOpen = () => {
 		setOpen(true);
@@ -60,7 +69,7 @@ export default function AddMachineModal() {
 			(machine) => machine.machine_id === value
 		);
 		if (machine.machine_status === false) {
-			enqueueSnackbar("Someone else is already using this machine!", {
+			enqueueSnackbar("You or someone else is already using this machine!", {
 				variant: "error",
 				autoHideDuration: 1300,
 				preventDuplicate: true
@@ -92,9 +101,11 @@ export default function AddMachineModal() {
 			return;
 		}
 
-		console.log("Machines in use: ", machinesInUse);
-
-		if (machinesInUse.length > 0) {
+		if (
+			currentWorkout.machines.find(
+				(machine) => machine.machine_status === false
+			)
+		) {
 			enqueueSnackbar("You are already using a machine!", {
 				variant: "warning",
 				autoHideDuration: 1300,
@@ -151,6 +162,10 @@ export default function AddMachineModal() {
 		console.log(event.target.value);
 		setValue(event.target.value);
 	};
+
+	useEffect(() => {
+		dispatch(getMachinesAtDixon());
+	}, [dispatch]);
 
 	return (
 		<div>

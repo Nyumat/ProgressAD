@@ -15,7 +15,9 @@ export const getGlobalMachines = createAsyncThunk(
 	"workout/getGlobalMachines",
 	async (values, { rejectWithValue }) => {
 		try {
-			const machines = await axios.get("/api/machines/get");
+			const machines = await axios.get(
+				`${process.env.REACT_APP_TRCKME_BACKEND}/api/machines/get`
+			);
 			return machines.data;
 		} catch (error) {
 			console.log(error.response);
@@ -28,10 +30,13 @@ export const addMachineToWorkout = createAsyncThunk(
 	"workout/addMachineToWorkout",
 	async (values, { rejectWithValue }) => {
 		try {
-			const machine = await axios.post("/api/workout/machines/add", {
-				machine_id: values.machine_id,
-				username: values.username
-			});
+			const machine = await axios.post(
+				`${process.env.REACT_APP_TRCKME_BACKEND}/api/workout/machines/add`,
+				{
+					machine_id: values.machine_id,
+					username: values.username
+				}
+			);
 			return machine.data;
 		} catch (error) {
 			return rejectWithValue(error.response.data);
@@ -43,11 +48,14 @@ export const createWorkout = createAsyncThunk(
 	"workout/createWorkout",
 	async (workout, { rejectWithValue }) => {
 		try {
-			const res = await axios.post("/api/workouts/create", {
-				username: workout.username,
-				workOutType: workout.workOutType,
-				workOutIntensity: workout.workOutIntensity
-			});
+			const res = await axios.post(
+				`${process.env.REACT_APP_TRCKME_BACKEND}/api/workouts/create`,
+				{
+					username: workout.username,
+					workOutType: workout.workOutType,
+					workOutIntensity: workout.workOutIntensity
+				}
+			);
 			return res.data;
 		} catch (err) {
 			return rejectWithValue(err.response.data);
@@ -59,11 +67,14 @@ export const getWorkout = createAsyncThunk(
 	"workout/getWorkout",
 	async (username, { rejectWithValue }) => {
 		try {
-			const response = await axios.get(`/api/workouts/get`, {
-				params: {
-					username: username
+			const response = await axios.get(
+				`${process.env.REACT_APP_TRCKME_BACKEND}/api/workouts/get`,
+				{
+					params: {
+						username: username
+					}
 				}
-			});
+			);
 			return response.data;
 		} catch (err) {
 			return rejectWithValue(err.response.data);
@@ -75,9 +86,12 @@ export const endWorkout = createAsyncThunk(
 	"workout/endWorkout",
 	async (username, { rejectWithValue }) => {
 		try {
-			const response = await axios.patch(`/api/workout/end`, {
-				username: username
-			});
+			const response = await axios.patch(
+				`${process.env.REACT_APP_TRCKME_BACKEND}/api/workout/end`,
+				{
+					username: username
+				}
+			);
 			return response.data;
 		} catch (err) {
 			return rejectWithValue(err.response.data);
@@ -89,11 +103,14 @@ export const rateWorkout = createAsyncThunk(
 	"workout/rateWorkout",
 	async (values, { rejectWithValue }) => {
 		try {
-			const response = await axios.patch(`/api/workout/rate`, {
-				username: values.username,
-				effortLevel: values.effortLevel,
-				tirednessLevel: values.tirednessLevel
-			});
+			const response = await axios.patch(
+				`${process.env.REACT_APP_TRCKME_BACKEND}/api/workout/rate`,
+				{
+					username: values.username,
+					effortLevel: values.effortLevel,
+					tirednessLevel: values.tirednessLevel
+				}
+			);
 			return response.data;
 		} catch (err) {
 			return rejectWithValue(err.response.data);
@@ -105,10 +122,52 @@ export const addExerciseToWorkout = createAsyncThunk(
 	"workout/addExerciseToWorkout",
 	async (values, { rejectWithValue }) => {
 		try {
-			const workout = await axios.patch("/api/workout/exercises/add", {
-				username: values.username,
-				exercise_name: values.exercise_name
-			});
+			const workout = await axios.patch(
+				`${process.env.REACT_APP_TRCKME_BACKEND}/api/workout/exercises/add`,
+				{
+					username: values.username,
+					exercise_name: values.exercise_name
+				}
+			);
+			return workout.data;
+		} catch (error) {
+			return rejectWithValue(error.response.data);
+		}
+	}
+);
+
+export const addSetsToMachine = createAsyncThunk(
+	"workout/addSetsToExercise",
+	async (values, { rejectWithValue }) => {
+		try {
+			const workout = await axios.post(
+				`${process.env.REACT_APP_TRCKME_BACKEND}/api/workout/machines/sets/add`,
+				{
+					username: values.username,
+					machine_id: values.machine_id,
+					sets: values.sets
+				}
+			);
+			return workout.data;
+		} catch (error) {
+			return rejectWithValue(error.response.data);
+		}
+	}
+);
+
+export const addCardioDataToMachine = createAsyncThunk(
+	"workout/addCardioDataToMachine",
+	async (values, { rejectWithValue }) => {
+		try {
+			const workout = await axios.put(
+				`${process.env.REACT_APP_TRCKME_BACKEND}/api/workout/machines/cardio/add`,
+				{
+					username: values.username,
+					machine_id: values.machine_id,
+					distance: values.distance,
+					timeSpent: values.timeSpent
+				}
+			);
 			return workout.data;
 		} catch (error) {
 			return rejectWithValue(error.response.data);
@@ -245,6 +304,30 @@ export const workoutSlice = createSlice({
 			state.status = "Exercise addition failed";
 			state.error = action.payload.msg;
 		});
+		builder.addCase(addSetsToMachine.pending, (state) => {
+			state.status = "Adding sets to machine...";
+		});
+		builder.addCase(addSetsToMachine.fulfilled, (state, action) => {
+			state.status = action.payload.msg;
+			state.error = "";
+			state.currentWorkout = action.payload.workout;
+		});
+		builder.addCase(addSetsToMachine.rejected, (state, action) => {
+			state.status = "Set addition failed";
+			state.error = action.payload.msg;
+		});
+		builder.addCase(addCardioDataToMachine.pending, (state) => {
+			state.status = "Adding cardio data to machine...";
+		});
+		builder.addCase(addCardioDataToMachine.fulfilled, (state, action) => {
+			state.status = action.payload.msg;
+			state.error = "";
+			state.currentWorkout = action.payload.workout;
+		});
+		builder.addCase(addCardioDataToMachine.rejected, (state, action) => {
+			state.status = "Cardio data addition failed";
+			state.error = action.payload.msg;
+		});
 	}
 });
 
@@ -259,9 +342,5 @@ export const {
 export const selectWorkout = (state) => state.workout;
 export const selectCurrentWorkout = (state) => state.workout.currentWorkout;
 export const selectMachinesWkt = (state) => state.workout.machines.machines;
-export const selectMachinesInUse = (state) =>
-	state.workout.currentWorkout.machines.filter(
-		(machine) => !machine.machine_status
-	);
 
 export default workoutSlice.reducer;

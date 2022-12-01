@@ -14,7 +14,9 @@ export const getMachinesAtDixon = createAsyncThunk(
 	"dixon/getMachinesAtDixon",
 	async (values, { rejectWithValue }) => {
 		try {
-			const machines = await axios.get("/api/machines/get");
+			const machines = await axios.get(
+				`${process.env.REACT_APP_TRCKME_BACKEND}/api/machines/get`
+			);
 			return machines.data;
 		} catch (error) {
 			console.log(error.response);
@@ -27,10 +29,13 @@ export const toggleDixonMachineStatus = createAsyncThunk(
 	"dixon/toggleDixonMachineStatus",
 	async (values, { rejectWithValue }) => {
 		try {
-			const response = await axios.put("/api/machine/update_status", {
-				machine_id: values.machine_id,
-				username: values.username
-			});
+			const response = await axios.put(
+				`${process.env.REACT_APP_TRCKME_BACKEND}/api/machine/update_status`,
+				{
+					machine_id: values.machine_id,
+					username: values.username
+				}
+			);
 			return response.data;
 		} catch (error) {
 			console.log(error.response);

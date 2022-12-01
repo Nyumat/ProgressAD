@@ -26,15 +26,31 @@ import {
 
 function Copyright(props) {
 	return (
-		<Typography variant='body2' color='text.secondary' align='center' mt={1}>
-			{"Copyright © "}
-			<Link
-				color='inherit'
-				href='https://github.com/TrackMeAtDixon/Progress#readme'>
-				ProgressAD
-			</Link>{" "}
-			{new Date().getFullYear()}.
-		</Typography>
+		<Box
+			sx={{
+				display: "flex",
+				justifyContent: "center",
+				mt: 3
+			}}>
+			<Typography variant='body2' color='text.secondary' align='center'>
+				{"Copyright © "}
+				<Link
+					color='inherit'
+					href='https://github.com/TrackMeAtDixon/Progress#readme'
+					sx={{
+						"textDecoration": "none",
+						"borderRadius": "4px",
+						"transition": "0.3s",
+						"&:hover": {
+							backgroundColor: "#ff6f00",
+							color: "white"
+						}
+					}}>
+					ProgressAD
+				</Link>{" "}
+				{new Date().getFullYear()}.
+			</Typography>
+		</Box>
 	);
 }
 
@@ -153,7 +169,10 @@ export default function Register() {
 		};
 
 		axios
-			.post("http://localhost:8080/api/users/register", requestBody)
+			.post(
+				`${process.env.REACT_APP_TRCKME_BACKEND}/api/users/register`,
+				requestBody
+			)
 			.then((response) => {
 				if (response.status === 200) {
 					setTimeout(() => {
@@ -248,7 +267,7 @@ export default function Register() {
 							id='username'
 							label={switchLabelUsername(errorUsername)}
 							name='username'
-							autoComplete='username'
+							autoComplete='off'
 							autoFocus
 						/>
 						<TextField
@@ -260,7 +279,7 @@ export default function Register() {
 							label={switchLabelPin(errorPin)}
 							type='password'
 							id='pin'
-							autoComplete='current-password'
+							autoComplete='off'
 						/>
 
 						<Container>
