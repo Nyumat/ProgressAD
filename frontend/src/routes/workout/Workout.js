@@ -192,7 +192,7 @@ export default function Workout() {
 				</Grid>
 
 				<Grid container>
-					{currentWorkout.machines.length === 0 ? (
+					{currentWorkout.machines === [] || currentWorkout.machines.length === 0 ? (
 						<Grid
 							item
 							xs={12}
