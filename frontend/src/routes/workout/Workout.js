@@ -63,7 +63,7 @@ export default function Workout() {
 	}
 
 	const renderOtherExercises = (machine) => {
-		return currentWorkout.workoutExercises.map((exercise, i) => (
+		return currentWorkout.workoutExercises?.map((exercise, i) => (
 			<Box
 				key={i}
 				sx={{
@@ -185,9 +185,7 @@ export default function Workout() {
 									paddingTop: 2,
 									gap: 3
 								}}>
-								{currentWorkout.workoutExercises === []
-									? "None Yet"
-									: renderOtherExercises()}
+								{currentWorkout.workoutExercises? renderOtherExercises() : null}
 							</Stack>
 						</Container>
 					</Box>
