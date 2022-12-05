@@ -94,6 +94,13 @@ app.listen(PORT, () => {
 	console.log(`Server started on port ${PORT}`);
 });
 
+const __dirname = path.resolve();
+app.use(express.static(path.resolve(__dirname, "../client/build")));
+
+app.get("*", (req, res) => {
+	res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
+});
+
 const uri = process.env.URI;
 mongoose
 	.connect(uri, {

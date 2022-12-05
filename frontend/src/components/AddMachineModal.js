@@ -53,6 +53,7 @@ export default function AddMachineModal() {
 
 	const dixonMachines = useSelector(selectMachines);
 	const currentWorkout = useSelector(selectCurrentWorkout);
+	const machinesInUse = useSelector(selectMachinesInUse);
 
 	const handleClickOpen = () => {
 		setOpen(true);
