@@ -18,7 +18,6 @@ import { useSelector, useDispatch } from "react-redux";
 import {
 	addMachineToWorkout,
 	selectCurrentWorkout,
-	selectMachinesInUse
 } from "../slices/workoutSlice";
 
 import { useSnackbar } from "notistack";
@@ -43,7 +42,6 @@ export default function AddMachineModal() {
 
 	const dixonMachines = useSelector(selectMachines);
 	const currentWorkout = useSelector(selectCurrentWorkout);
-	const machinesInUse = useSelector(selectMachinesInUse);
 
 	const handleClickOpen = () => {
 		setOpen(true);
@@ -92,9 +90,8 @@ export default function AddMachineModal() {
 			return;
 		}
 
-		console.log("Machines in use: ", machinesInUse);
 
-		if (machinesInUse.length > 0) {
+		if (currentWorkout.machines.find((machine) => machine.machine_status === false)) {
 			enqueueSnackbar("You are already using a machine!", {
 				variant: "warning",
 				autoHideDuration: 1300,

@@ -24,6 +24,74 @@ export default function Workout() {
 		return machine.machine_image;
 	};
 
+	useLayoutEffect(() => {
+		return () => { };
+	}, [currentWorkout]);
+
+	const renderAllMachines = () => {
+		if (currentWorkout.machines?.length > 0) {
+			return currentWorkout.machines.map((machine) => (
+				<Grid item xs={12} sm={6} md={4} lg={3} key={machine.machine_id}>
+					<Box
+						sx={{
+							border: 2,
+							borderColor: "#ff6f00",
+							borderRadius: 4,
+							padding: 1,
+							margin: 1,
+							textAlign: "center"
+						}}>
+						<Container
+							sx={{
+								paddingTop: 1
+							}}>
+							<Typography
+								variant='h6'
+								color='primary'
+								sx={{ fontWeight: "535" }}>
+								{capitalizeFirstLetter(machine.machine_name)}
+							</Typography>
+							<MachineUseToggle
+								machine_id={machine.machine_id}
+								username={user.username}
+							/>
+							{machine.machine_type === "Cardio" ? renderCardio(machine) : null}
+							{machine.machine_type === "Strength"
+								? renderStrength(machine)
+								: null}
+						</Container>
+						<img
+							src={getImageUrl(machine.machine_id)}
+							alt={machine.machine_name}
+							style={{
+								width: "100%",
+								height: "100%",
+								backgroundSize: "cover"
+							}}
+						/>
+					</Box>
+				</Grid>
+			));
+		}
+	};
+
+	const renderNoMachines = () => {
+		if (currentWorkout.machines?.length === 0) {
+			return (
+				<Grid
+					item
+					xs={12}
+					sx={{
+						pl: 3
+					}}>
+					<Typography variant='h6' align='center' color='primary'>
+						Click "Add Machine" To Add A Machine To Your Workout!
+					</Typography>
+				</Grid>
+			);
+		}
+	};
+
 	const renderCardio = (machine) => {
 		return (
 			<Stack
@@ -185,70 +253,17 @@ export default function Workout() {
 									paddingTop: 2,
 									gap: 3
 								}}>
-								{currentWorkout.workoutExercises? renderOtherExercises() : null}
+								{currentWorkout.workoutExercises
+									? renderOtherExercises()
+									: null}
 							</Stack>
 						</Container>
 					</Box>
 				</Grid>
 
 				<Grid container>
-					{currentWorkout.machines === [] || currentWorkout.machines.length === 0 ? (
-						<Grid
-							item
-							xs={12}
-							sx={{
-								pl: 3
-							}}>
-							<Typography variant='h6' align='center' color='primary'>
-								Click "Add Machine" To Add A Machine To Your Workout!
-							</Typography>
-						</Grid>
-					) : (
-						currentWorkout.machines.map((machine) => (
-							<Grid item xs={12} sm={6} md={4} lg={3} key={machine.machine_id}>
-								<Box
-									sx={{
-										border: 2,
-										borderColor: "#ff6f00",
-										borderRadius: 4,
-										padding: 1,
-										margin: 1,
-										textAlign: "center"
-									}}>
-									<Container
-										sx={{
-											paddingTop: 1
-										}}>
-										<Typography
-											variant='h6'
-											color='primary'
-											sx={{ fontWeight: "535" }}>
-											{capitalizeFirstLetter(machine.machine_name)}
-										</Typography>
-										<MachineUseToggle
-											machine_id={machine.machine_id}
-											username={user.username}
-										/>
-										{machine.machine_type === "Cardio"
-											? renderCardio(machine)
-											: null}
-										{machine.machine_type === "Strength"
-											? renderStrength(machine)
-											: null}
-									</Container>
-									<img
-										src={getImageUrl(machine.machine_id)}
-										alt={machine.machine_name}
-										style={{
-											width: "100%",
-											height: "100%",
-											backgroundSize: "cover"
-										}}
-									/>
-								</Box>
-							</Grid>
-						))
-					)}
+					{renderNoMachines()}
+					{renderAllMachines()}
 				</Grid>
 			</Grid>
 		</Container>

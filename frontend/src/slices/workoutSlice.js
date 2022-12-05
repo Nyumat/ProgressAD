@@ -316,9 +316,5 @@ export const {
 export const selectWorkout = (state) => state.workout;
 export const selectCurrentWorkout = (state) => state.workout.currentWorkout;
 export const selectMachinesWkt = (state) => state.workout.machines.machines;
-export const selectMachinesInUse = (state) =>
-	state.workout.currentWorkout.machines.filter(
-		(machine) => !machine.machine_status
-	);
 
 export default workoutSlice.reducer;

@@ -419,7 +419,7 @@ export default function AddExerciseModal() {
 									name='radio-buttons-group'
 									value={selectedMachine}
 									onChange={handleChange}>
-									{currentWorkout.machines.map((machine) => (
+									{currentWorkout.machines?.map((machine) => (
 										<FormControlLabel
 											key={machine._id}
 											value={machine.machine_name}

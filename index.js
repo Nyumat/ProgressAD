@@ -5,6 +5,7 @@ import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
 import cloudinary from "cloudinary";
+import path from "path";
 
 // Middleware
 import tracker from "./middleware/tracker.js";
@@ -92,6 +93,13 @@ app.get("/api", (req, res) => {
 
 app.listen(PORT, () => {
 	console.log(`Server started on port ${PORT}`);
+});
+
+const __dirname = path.resolve();
+app.use(express.static(path.resolve(__dirname, "../client/build")));
+
+app.get("*", (req, res) => {
+	res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
 });
 
 const uri = process.env.URI;
