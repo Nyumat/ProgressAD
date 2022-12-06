@@ -6,24 +6,24 @@ import workoutSlice from "./slices/workoutSlice";
 import dixonSlice from "./slices/dixonSlice";
 
 const reducers = combineReducers({
-	user: userSlice,
-	workout: workoutSlice,
-	dixon: dixonSlice
+  user: userSlice,
+  workout: workoutSlice,
+  dixon: dixonSlice,
 });
 
 const persistConfig = {
-	key: "root",
-	storage,
-	whitelist: ["user", "workout", "dixon"]
+  key: "root",
+  storage,
+  whitelist: ["user", "workout", "dixon"],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);
 
 const store = configureStore({
-	reducer: persistedReducer,
-	devTools: true,
-	middleware: (getDefaultMiddleware) =>
-		getDefaultMiddleware({ serializableCheck: false })
+  reducer: persistedReducer,
+  devTools: true,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({ serializableCheck: false }),
 });
 
 export default store;
