@@ -69,8 +69,7 @@ export default function Home() {
         border: "1px solid #ff6f00",
       }}
     >
-      <main sx={{
-      }}>
+      <main sx={{}}>
         <Box
           sx={{
             pt: 8,
@@ -251,8 +250,12 @@ export default function Home() {
                         ))
                       )}
                     </Typography>
-                    <Stack direction="column" spacing={0} sx={{ mt: 2 }}>
-                      {workout.tiredNessLevel ? (
+                    <Stack
+                      direction="column"
+                      spacing={0}
+                      sx={{ mt: 2, gap: 1 }}
+                    >
+                      {workout.tirednessLevel ? (
                         <>
                           <Typography
                             sx={{
@@ -264,7 +267,7 @@ export default function Home() {
                             color="text.secondary"
                             component={"div"}
                           >
-                            Tiredness Level:
+                            Tiredness Level: <br></br> {workout.tirednessLevel}
                           </Typography>
                         </>
                       ) : (

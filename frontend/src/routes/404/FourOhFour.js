@@ -39,7 +39,6 @@ function FourOhFour({ to }) {
             backgroundColor: "#000",
             color: "white",
           },
-          
         }}
         gutterBottom
       >

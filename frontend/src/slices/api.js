@@ -1,8 +1,8 @@
 export const setHeaders = () => {
-	const headers = {
-		headers: {
-			"x-auth-token": localStorage.getItem("token")
-		}
-	};
-	return headers;
+  const headers = {
+    headers: {
+      "x-auth-token": localStorage.getItem("token"),
+    },
+  };
+  return headers;
 };

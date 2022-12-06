@@ -58,7 +58,7 @@ export default function App() {
               path="*"
               element={
                 <>
-                 <FourOhFour to="/" />
+                  <FourOhFour to="/" />
                 </>
               }
             />

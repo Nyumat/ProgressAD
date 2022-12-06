@@ -23,7 +23,6 @@ const getPreviousRoute = (prevRoute) => {
       return "home";
   }
 };
-    
 
 const UnknownRouteHandler = ({ to }) => {
   const prevRoute = useLocation();
