@@ -2,10 +2,22 @@
 
 ### A workout tracking system for Oregon State University's Dixon Recreation Center.
 
+
 #
 ### [Live Demo on Render.com Services](https://trackmedixon.onrender.com/)
 
-### [API Gateway](https://progress-backend.onrender.com/api)
+### [Youtube Video](https://www.youtube.com/watch?v=B000yfQR0xM)
+
+<a href="https://www.youtube.com/watch?v=B000yfQR0xM" target="_blank">
+ <img src="http://img.youtube.com/vi/B000yfQR0xM/maxresdefault.jpg" alt="Watch the video" width="270" height="180" border="10" />
+</a>
+
+### [API Gateway](https://progress-backend.onrender.com/api) 
+
+> **Note** Web Services on the free instance type are automatically spun down after 15 minutes of inactivity. When a new request for a free service comes in, Render spins it up again so it can process the request.
+
+>This can cause a response delay of up to 30 seconds for the first request that comes in after a period of inactivity.
+
 #
 
 ## Quick Specs
