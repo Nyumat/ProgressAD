@@ -1,8 +1,8 @@
 import { compare } from "bcrypt";
-import { User } from "../../models/user.js";
 import joi from "joi";
 import { Router } from "express";
 import generateAuthToken from "../../utils/generateToken.js";
+import User from "../../models/user.js";
 const router = Router();
 
 router.post("/", async (req, res) => {
@@ -34,7 +34,7 @@ router.post("/", async (req, res) => {
 
 	if (!validPassword) return res.status(401).send("Incorrect pin. Try again.");
 
-	user.loginDateTime = Date.now();
+	user.updatedAt = new Date();
 	await user.save();
 
 	const token = generateAuthToken(user);

@@ -1,9 +1,19 @@
 import { genSalt, hash } from "bcrypt";
-import { User } from "../../models/user.js";
 import joi from "joi";
 import { Router } from "express";
 import generateAuthToken from "../../utils/generateToken.js";
+import User from '../../models/user.js';
 const router = Router();
+
+interface Register {
+	username: string;
+	pin: number;
+	weight: number;
+	bloodType?: string;
+	height: number;
+	BMI: number;
+}
+
 
 router.post("/", async (req, res) => {
 	const schema = joi.object({
