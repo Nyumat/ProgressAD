@@ -37,7 +37,12 @@ router.post("/", async (req, res) => {
 	user.updatedAt = new Date();
 	await user.save();
 
-	const token = generateAuthToken(user);
+	const token = generateAuthToken({
+		_id: user._id,
+		username: user.username,
+		key: process.env.JWT_SECRET_KEY as string
+	});
+
 	res.status(200).json({
 		msg: `User ${user.username} logged in successfully!`,
 		token: token
