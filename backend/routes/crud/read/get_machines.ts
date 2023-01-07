@@ -1,11 +1,11 @@
 import { Router } from "express";
-import { Dixon } from "../../../models/dixon.js";
+import Dixon from "../../../models/dixon.js";
 const router = Router();
 
 router.get("/", async (req, res) => {
 	try {
 		let dixon = await Dixon.find({}).exec();
-		let machines = [];
+		let machines: any[] = [];
 		dixon.map((machine) => {
 			machines.push({
 				machine_name: machine.machine_name,

@@ -1,4 +1,5 @@
-import { User } from "../../../models/user.js";
+//@ts-nocheck
+import User from "../../../models/user.js";
 import { Router } from "express";
 const router = Router();
 
