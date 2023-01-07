@@ -35,13 +35,9 @@ import update_set from "./routes/crud/update/update_set.js";
 dotenv.config();
 
 const PORT = process.env.PORT;
-
-
-
 declare module 'cloudinary' {
   export function config(conf: ConfigOptions): void;
 }
-
 interface ConfigOptions {
 	cloud_name: string;
 	api_key: string;
