@@ -1,8 +1,9 @@
-import { User } from "../../../models/user.js";
-import { Router } from "express";
+//@ts-nocheck
+import User from "../../../models/user.js";
+import { Router, Request, Response }  from "express";
 const router = Router();
 
-router.patch("/", async (req, res) => {
+router.patch("/", async (req: Request, res: Response) => {
 	const { username, effortLevel, tirednessLevel } = req.body;
 	try {
 		let user = await User.findOne({ username: username });

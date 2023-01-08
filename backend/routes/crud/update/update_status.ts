@@ -1,9 +1,11 @@
-import { User } from "../../../models/user.js";
-import { Dixon } from "../../../models/dixon.js";
-import { Router } from "express";
+
+import User from "../../../models/user.js";
+import { Request, Response, Router }  from "express";
+import Dixon from '../../../models/dixon.js';
+import { Machine } from '../../../models/workout.js';
 const router = Router();
 
-router.put("/", async (req, res) => {
+router.put("/", async (req : Request, res : Response) => {
 	try {
 		const { machine_id, username } = req.body;
 
@@ -20,14 +22,19 @@ router.put("/", async (req, res) => {
 		}
 
 		const user_workout = user.workouts[0];
-		const user_machine = user_workout.machines.find(
-			(machine) => machine.machine_id === machine_id
-		);
+		
+		let user_machine = User.findOne({ username: username, "workouts.machines.machine_id": machine_id });
 
-		if (user_machine.machine_status === false) {
-			user_machine.machine_status = true;
+		let machine_status = machine.machine_status;
+		
+		if (!user_machine) {
+			return res.status(400).json({ msg: "Machine does not exist." });
+		}
+
+		if (machine_status === false) {
+			machine_status = true;
 		} else {
-			user_machine.machine_status = false;
+			machine_status = false;
 		}
 
 		await user.save();
@@ -39,7 +46,7 @@ router.put("/", async (req, res) => {
 			machines: machines
 		});
 
-		machine.machine_status = user_machine.machine_status;
+		machine.machine_status = machine_status;
 		await machine.save();
 	} catch (error) {
 		res.send(error);

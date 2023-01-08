@@ -1,8 +1,9 @@
-import { User } from "../../../models/user.js";
-import { Router } from "express";
+// @ts-nocheck
+import User from "../../../models/user.js";
+import { Router, Request, Response }  from "express";
 const router = Router();
 
-router.put("/", async (req, res) => {
+router.put("/", async (req: Request, res: Response) => {
 	try {
 		const {
 			old_username,
@@ -39,9 +40,18 @@ router.put("/", async (req, res) => {
 			old_user.lastName = lastName;
 			old_user.save();
 
+			old_user.workouts.forEach(async (workout) => {
+				workout.username = username;
+				workout.machines.forEach(async (machine: { username: any; save: () => any; }) => {
+					machine.username = username;
+					await machine.save();
+				});
+				workout.save();
+			});
+
 			old_user.savedWorkouts.forEach(async (workout) => {
 				workout.username = username;
-				workout.machines.forEach(async (machine) => {
+				workout.machines.forEach(async (machine: { username: any; save: () => any; }) => {
 					machine.username = username;
 					await machine.save();
 				});
@@ -53,6 +63,12 @@ router.put("/", async (req, res) => {
 				user: old_user
 			});
 		} else {
+			if (!user) {
+				return res.status(400).json({
+					msg: "User does not exist"
+				});
+			}
+
 			user.weight = weight;
 			user.height = height;
 			user.BMI = BMI;

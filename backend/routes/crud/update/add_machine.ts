@@ -1,16 +1,20 @@
-import { User } from "../../../models/user.js";
-import { Router } from "express";
-import { Dixon } from "../../../models/dixon.js";
+//@ts-nocheck
+import Dixon from "../../../models/dixon.js";
+import User from "../../../models/user.js";
+import { Router, Request, Response }  from "express";
 const router = Router();
 
-router.post("/", async (req, res) => {
+router.post("/", async (req: Request, res: Response) => {
 	try {
 		const { username, machine_id } = req.body;
-		let machine_type = null;
-		let machine_name = null;
-		let is_available = null;
+		console.log(req.body);
+		let machine_type: string;
+		let machine_name: any;
+		let is_available: boolean;
 
-		let dixon = await Dixon.findOne({ machine_id: machine_id }).exec();
+		let dixon = await Dixon.findOne({
+			machine_id: machine_id
+		});
 
 		if (!dixon) {
 			return res.status(400).json({ msg: "Machine does not exist at Dixon" });
@@ -20,7 +24,7 @@ router.post("/", async (req, res) => {
 		machine_name = dixon.machine_name;
 		is_available = dixon.machine_status;
 
-		if (!is_available) {
+		if (is_available === false) {
 			return res.status(400).json({ msg: "Machine is currently in use" });
 		}
 
