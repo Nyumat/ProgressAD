@@ -1,10 +1,11 @@
+//@ts-nocheck
 import { Exercise } from "../../../models/workout.js";
 import { Workout } from "../../../models/workout.js";
-import { User } from "../../../models/user.js";
-import { Router } from "express";
+import User from "../../../models/user.js";
+import { Router, Request, Response } from "express";
 const router = Router();
 
-router.patch("/", async (req, res) => {
+router.patch("/", async (req: Request, res: Response) => {
 	const { username, exercise_name } = req.body;
 
 	try {
@@ -20,6 +21,14 @@ router.patch("/", async (req, res) => {
 			exercise_name
 		});
 
+		let workoutExercisesId = await User.findOne({ username }).select(
+			"workoutExercises"
+		);
+
+		if (!workoutExercisesId) {
+			return res.status(400).json({ msg: "No workout created." });
+		}
+		
 		workout.workoutExercises.push(exercise);
 
 		await user.save();

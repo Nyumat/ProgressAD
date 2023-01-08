@@ -1,9 +1,9 @@
-import { User } from "../../../models/user.js";
+import { Router, Request, Response }  from "express";
+import User from "../../../models/user.js";
 import { Workout } from "../../../models/workout.js";
-import { Router } from "express";
 const router = Router();
 
-router.post("/", async (req, res) => {
+router.post("/", async (req: Request, res: Response) => {
 	const { username, workOutType, workOutIntensity } = req.body;
 	try {
 		let user = await User.findOne({ username: username });
@@ -23,7 +23,16 @@ router.post("/", async (req, res) => {
 		if (user.workouts.length > 0) {
 			return res.status(400).json({ msg: "Workout already going on." });
 		} else {
-			user.workouts = [workout];
+			User.updateOne(
+				{
+					username
+				},
+				{
+					$push: {
+						workouts: workout
+					}
+				}
+			).exec();
 			await user.save();
 			return res.status(200).json({
 				msg: `Workout created for ${username} successfully!`,
