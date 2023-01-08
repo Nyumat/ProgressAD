@@ -1,11 +1,11 @@
 import { compare } from "bcrypt";
 import joi from "joi";
-import { Router } from "express";
+import { Router, Request, Response }  from "express";
 import generateAuthToken from "../../utils/generateToken.js";
 import User from "../../models/user.js";
 const router = Router();
 
-router.post("/", async (req, res) => {
+router.post("/", async (req: Request, res: Response) => {
 	const schema = joi.object({
 		username: joi.string().min(3).max(200).required(),
 		pin: joi.number().min(0).max(9999).required()

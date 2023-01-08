@@ -1,6 +1,6 @@
 import { genSalt, hash } from "bcrypt";
 import joi from "joi";
-import { Router } from "express";
+import { Router, Request, Response }  from "express";
 import generateAuthToken from "../../utils/generateToken.js";
 import User from '../../models/user.js';
 const router = Router();
@@ -15,7 +15,7 @@ interface Register {
 }
 
 
-router.post("/", async (req, res) => {
+router.post("/", async (req: Request, res: Response) => {
 	const schema = joi.object({
 		username: joi.string().min(3).max(200).required(),
 		pin: joi.number().min(0).max(9999).required(),
@@ -59,7 +59,11 @@ router.post("/", async (req, res) => {
 
 	return res.status(200).json({
 		msg: `User ${username} created successfully!`,
-		token: generateAuthToken(user)
+		token: generateAuthToken({
+			_id: user._id,
+			username: user.username,
+			key: process.env.JWT_SECRET_KEY as string
+		})
 	});
 });
 

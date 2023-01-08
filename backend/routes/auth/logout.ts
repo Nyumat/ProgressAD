@@ -1,10 +1,10 @@
 // @ts-nocheck
 import User from "../../models/user.js";
-import { Router } from "express";
+import { Router, Request, Response }  from "express";
 import Dixon from "../../models/dixon.js";
 const router = Router();
 
-router.patch("/", async (req, res) => {
+router.patch("/", async (req: Request, res: Response) => {
 	let username = req.body.username;
 	try {
 		let user = await User.findOne({ username: username }).exec();
