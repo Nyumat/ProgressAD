@@ -1,20 +1,20 @@
-import { Router } from "express";
-import { Dixon } from "../../../models/dixon.js";
+import { Router, Request, Response }  from "express";
 const router = Router();
 import cloudinary from "cloudinary";
 import path from "path";
 import dotenv from "dotenv";
 import { v4 as uuidv4 } from "uuid";
+import Dixon from '../../../models/dixon.js';
 
 dotenv.config();
 
-router.post("/", async (req, res) => {
+router.post("/", async (req: Request, res: Response) => {
 	let __dirname = path.resolve();
 	/*
 	 * Replace 'XXXX' with the filename & extension of the image you want to upload.
 	 * The file must be in the /images directory.
 	 */
-	let image = path.join(__dirname, "images", "XXXX.jpg");
+	let image = path.join(__dirname, "images", "squat.jpg");
 
 	try {
 		const { machine_name, machine_type } = req.body;
@@ -42,7 +42,10 @@ router.post("/", async (req, res) => {
 
 		await dixon.save();
 
-		res.status(200).json({ msg: "Machine created successfully!" });
+		res.status(200).json({
+			msg: "Machine created successfully!",
+			id: machine_id,
+		});
 	} catch (error) {
 		res.send(error);
 	}
