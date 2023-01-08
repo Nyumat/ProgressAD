@@ -1,8 +1,8 @@
-import { Router } from "express";
+import { Router, Request, Response }  from "express";
 import Dixon from "../../../models/dixon.js";
 const router = Router();
 
-router.get("/", async (req, res) => {
+router.get("/", async (req: Request, res: Response) => {
 	try {
 		let dixon = await Dixon.find({}).exec();
 		let machines: any[] = [];
