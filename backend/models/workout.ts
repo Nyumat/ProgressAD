@@ -39,6 +39,7 @@ type MachineType = mongoose.Document & {
 }
 
 type WorkoutType = mongoose.Document & {
+	_id: string;
 	username: string;
 	workOutType: EWorkoutType;
 	workOutIntensity: string;

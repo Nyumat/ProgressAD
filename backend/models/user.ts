@@ -82,6 +82,7 @@ const userSchema = new mongoose.Schema<UserType>({
 		unique: false,
 		uppercase: true
 	},
+	// May be used for future features
 	// loginDateTime: {
 	// 	type: Date,
 	// 	required: false,
