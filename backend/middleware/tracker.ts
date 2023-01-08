@@ -1,9 +1,9 @@
-import { Router } from "express";
+import { Router, Request, Response }  from "express";
 
 const router = Router();
 const connectionTracker = {};
 
-router.all("*", function (req, res, next) {
+router.all("*", function (req: Request, res: Response, next) {
 	const counter = connectionTracker[req.originalUrl];
 
 	if (counter || counter === 0) {
